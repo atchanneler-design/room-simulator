@@ -426,7 +426,8 @@ header h1 { font-size: 17px; font-weight: bold; }
 // ════════════════════════════════
 // Config
 // ════════════════════════════════
-const APP_ID = '5263d0de-3e3f-4282-952c-5cf28e5c9bdb';
+const APP_ID     = '5263d0de-3e3f-4282-952c-5cf28e5c9bdb';
+const ACCESS_KEY = 'pk_NuJVZv4rSOjQYaWY8u6n6Qm9CUZ1EKEwCiZGuOcs5q';
 
 // ════════════════════════════════
 // Constants
@@ -916,9 +917,10 @@ function rakutenSearch(kw) {
     renderResults(items);
   };
 
-  const url = 'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706?format=json'
+  const url = 'https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20220601?format=json'
     + `&keyword=${encodeURIComponent(kw)}`
     + `&applicationId=${encodeURIComponent(APP_ID)}`
+    + `&accessKey=${encodeURIComponent(ACCESS_KEY)}`
     + `&callback=${cb}&hits=12&sort=-reviewCount&imageFlag=1`;
 
   const sc   = document.createElement('script');
