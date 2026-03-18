@@ -426,8 +426,7 @@ header h1 { font-size: 17px; font-weight: bold; }
 // ════════════════════════════════
 // Config
 // ════════════════════════════════
-const APP_ID     = '5263d0de-3e3f-4282-952c-5cf28e5c9bdb';
-const ACCESS_KEY = 'pk_NuJVZv4rSOjQYaWY8u6n6Qm9CUZ1EKEwCiZGuOcs5q';
+// API credentials are handled server-side by /api/search.js
 
 // ════════════════════════════════
 // Constants
@@ -895,43 +894,29 @@ function doSearch() {
   rakutenSearch(kw);
 }
 
-function rakutenSearch(kw) {
-  document.getElementById('rk-script')?.remove();
+async function rakutenSearch(kw) {
+  const url = `/api/search?keyword=${encodeURIComponent(kw)}&hits=12&sort=-reviewCount`;
+  console.log('[Rakuten] Request:', location.origin + url);
 
-  const cb    = 'rk_' + Date.now();
-  const timer = setTimeout(() => {
-    delete window[cb];
-    showError('タイムアウトしました。もう一度お試しください。');
-  }, 12000);
+  try {
+    const res  = await fetch(url);
+    console.log('[Rakuten] HTTP status:', res.status);
 
-  window[cb] = data => {
-    clearTimeout(timer);
-    delete window[cb];
-    document.getElementById('rk-script')?.remove();
-    if (!data || !data.Items) {
-      showError('データの取得に失敗しました。');
+    const data = await res.json();
+
+    if (!res.ok || !data.Items) {
+      console.error('[Rakuten] Error response:', data);
+      showError(data.error_description || data.error || 'データの取得に失敗しました。');
       return;
     }
-    const items  = data.Items.map(i => i.Item || i);
+
+    const items   = data.Items.map(i => i.Item || i);
     S.searchItems = items;
     renderResults(items);
-  };
-
-  const url = 'https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20220601?format=json'
-    + `&keyword=${encodeURIComponent(kw)}`
-    + `&applicationId=${encodeURIComponent(APP_ID)}`
-    + `&accessKey=${encodeURIComponent(ACCESS_KEY)}`
-    + `&callback=${cb}&hits=12&sort=-reviewCount&imageFlag=1`;
-
-  const sc   = document.createElement('script');
-  sc.id      = 'rk-script';
-  sc.src     = url;
-  sc.onerror = () => {
-    clearTimeout(timer);
-    delete window[cb];
+  } catch (err) {
+    console.error('[Rakuten] Fetch error:', err);
     showError('APIの呼び出しに失敗しました。');
-  };
-  document.head.append(sc);
+  }
 }
 
 function renderResults(items) {
