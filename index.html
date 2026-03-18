@@ -198,9 +198,9 @@ header h1 { font-size: 17px; font-weight: bold; }
 }
 .buy-btn:disabled { background: #ccc; cursor: default; }
 
-/* ── Color modal ── */
+/* ── Color modal (in-room color picker) ── */
 #color-modal {
-  position: fixed; inset: 0; z-index: 200;
+  position: fixed; inset: 0; z-index: 400;
   background: rgba(0,0,0,.5);
   display: flex; align-items: center; justify-content: center;
   padding: 20px;
@@ -235,15 +235,211 @@ header h1 { font-size: 17px; font-weight: bold; }
   border-radius: 6px; padding: 6px 10px;
   font-size: 12px; cursor: pointer; white-space: nowrap;
 }
-.modal-footer {
-  display: flex; gap: 8px; margin-top: 14px;
-}
+.modal-footer { display: flex; gap: 8px; margin-top: 14px; }
 .modal-footer button {
   flex: 1; padding: 10px;
   border: 1px solid var(--border); border-radius: 8px;
   font-size: 14px; cursor: pointer;
 }
 .modal-footer .ok { background: var(--red); color: #fff; border-color: var(--red); }
+
+/* ── Product detail modal ── */
+#detail-modal {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(0,0,0,.55);
+  display: flex; align-items: flex-end; justify-content: center;
+}
+#detail-modal.hidden { display: none; }
+.detail-box {
+  background: #fff;
+  width: 100%; max-width: 600px;
+  max-height: 94dvh;
+  border-radius: 16px 16px 0 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex; flex-direction: column;
+}
+.detail-header {
+  position: sticky; top: 0;
+  background: #fff; z-index: 10;
+  padding: 14px 16px 12px;
+  display: flex; align-items: flex-start; gap: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.detail-handle {
+  width: 40px; height: 4px; border-radius: 2px;
+  background: #ccc; margin: 0 auto 10px;
+  flex-shrink: 0;
+}
+.detail-title-wrap { flex: 1; }
+.detail-product-name {
+  font-size: 14px; font-weight: bold; line-height: 1.4;
+}
+.detail-close {
+  background: #f0f0f0; border: none;
+  width: 32px; height: 32px; border-radius: 50%;
+  font-size: 16px; cursor: pointer; flex-shrink: 0;
+  display: grid; place-items: center;
+}
+
+/* Gallery */
+.detail-gallery {
+  display: flex; gap: 8px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  padding: 12px 16px;
+  scrollbar-width: none;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+}
+.detail-gallery::-webkit-scrollbar { display: none; }
+.gallery-img {
+  height: 110px; width: auto;
+  object-fit: cover; flex-shrink: 0;
+  border-radius: 8px; cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color .15s, transform .15s;
+}
+.gallery-img:hover { border-color: var(--red); transform: scale(1.03); }
+.no-img-placeholder {
+  width: 110px; height: 110px;
+  background: #f0f0f0; border-radius: 8px;
+  display: grid; place-items: center;
+  color: var(--muted); font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* Product info */
+.detail-info {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.detail-price {
+  font-size: 20px; font-weight: bold;
+  color: var(--red); margin-bottom: 8px;
+}
+.detail-caption {
+  font-size: 12px; color: var(--muted); line-height: 1.6;
+}
+
+/* Section wrapper */
+.detail-section {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.detail-section h4 {
+  font-size: 13px; font-weight: bold; margin-bottom: 10px; color: var(--text);
+}
+
+/* Color swatches */
+.swatches-grid {
+  display: flex; flex-wrap: wrap; gap: 10px 8px;
+  margin-bottom: 12px;
+}
+.swatch-item {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 4px; cursor: pointer; width: 52px;
+}
+.swatch-circle {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 2px solid rgba(0,0,0,.12);
+  display: grid; place-items: center;
+  transition: transform .15s, border-color .15s;
+  position: relative;
+}
+.swatch-item.active .swatch-circle {
+  border: 3px solid var(--red);
+  transform: scale(1.12);
+}
+.swatch-check {
+  font-size: 17px; font-weight: bold;
+  color: #fff; opacity: 0;
+  text-shadow: 0 1px 4px rgba(0,0,0,.6);
+  transition: opacity .15s;
+}
+.swatch-item.active .swatch-check { opacity: 1; }
+.swatch-name {
+  font-size: 9px; color: var(--muted);
+  text-align: center; line-height: 1.2;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  max-width: 52px;
+}
+.hex-row {
+  display: flex; align-items: center; gap: 8px; margin-top: 4px;
+}
+.hex-row span { font-size: 12px; color: var(--muted); white-space: nowrap; }
+#detail-color-picker {
+  width: 40px; height: 34px; padding: 2px;
+  border-radius: 6px; border: 1px solid var(--border); cursor: pointer;
+}
+#detail-hex-input {
+  flex: 1; padding: 7px 10px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 13px; font-family: monospace;
+  max-width: 120px;
+}
+#detail-hex-input:focus { outline: none; border-color: var(--red); }
+
+/* Size inputs */
+.size-row {
+  display: flex; gap: 12px;
+}
+.size-field {
+  flex: 1; display: flex; flex-direction: column; gap: 4px;
+}
+.size-field label { font-size: 12px; color: var(--muted); }
+.size-field-inner {
+  display: flex; align-items: center; gap: 4px;
+}
+.size-field input[type=number] {
+  flex: 1; padding: 8px 10px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 15px; font-weight: bold; text-align: right;
+  width: 100%; -moz-appearance: textfield;
+}
+.size-field input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+.size-field input[type=number]:focus { outline: none; border-color: var(--red); }
+.size-field span { font-size: 13px; color: var(--muted); }
+
+/* Footer buttons */
+.detail-footer {
+  position: sticky; bottom: 0;
+  background: #fff;
+  padding: 12px 16px;
+  display: flex; gap: 8px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+.rakuten-btn {
+  padding: 12px 10px;
+  background: #f5f5f5; border: 1px solid var(--border);
+  border-radius: 10px; font-size: 13px; cursor: pointer;
+  white-space: nowrap; flex-shrink: 0;
+}
+.add-room-btn {
+  flex: 1; padding: 12px;
+  background: var(--red); color: #fff;
+  border: none; border-radius: 10px;
+  font-size: 14px; font-weight: bold; cursor: pointer;
+}
+
+/* ── Lightbox ── */
+#lightbox {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,.92);
+  display: flex; align-items: center; justify-content: center;
+}
+#lightbox.hidden { display: none; }
+#lightbox-img {
+  max-width: 100%; max-height: 100dvh;
+  object-fit: contain;
+}
+.lb-close {
+  position: absolute; top: 16px; right: 16px;
+  background: rgba(255,255,255,.15); border: none;
+  color: #fff; width: 42px; height: 42px;
+  border-radius: 50%; font-size: 20px; cursor: pointer;
+  display: grid; place-items: center;
+}
 
 /* ── Search results ── */
 #results-section {
@@ -268,8 +464,7 @@ header h1 { font-size: 17px; font-weight: bold; }
 .result-item:active { background: #f5f5f5; }
 .result-img {
   width: 60px; height: 60px; object-fit: cover;
-  border-radius: 6px; flex-shrink: 0;
-  background: #eee;
+  border-radius: 6px; flex-shrink: 0; background: #eee;
 }
 .result-info { flex: 1; min-width: 0; }
 .result-name {
@@ -290,20 +485,16 @@ header h1 { font-size: 17px; font-weight: bold; }
 
 /* ── Toast ── */
 #toast {
-  position: fixed;
-  bottom: 24px; left: 50%;
+  position: fixed; bottom: 24px; left: 50%;
   transform: translateX(-50%) translateY(10px);
   background: #1a1a1a; color: #fff;
   padding: 9px 22px; border-radius: 24px;
   font-size: 13px; font-weight: 500;
   opacity: 0; pointer-events: none;
   transition: opacity .25s, transform .25s;
-  z-index: 400; white-space: nowrap;
+  z-index: 600; white-space: nowrap;
 }
-#toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* ── Misc ── */
 .hidden { display: none !important; }
@@ -380,15 +571,15 @@ header h1 { font-size: 17px; font-weight: bold; }
     <input type="range" id="sl-h" min="30" max="280" oninput="onSizeChange()">
   </div>
   <div class="fp-actions">
-    <button class="rot-btn" onclick="rotateFurniture()" title="90度回転">↻ 回転</button>
+    <button class="rot-btn" onclick="rotateFurniture()">↻ 回転</button>
     <button class="color-btn" onclick="openColorModal()">
-      <span class="color-dot" id="cur-color-dot"></span>色を取得
+      <span class="color-dot" id="cur-color-dot"></span>色を変更
     </button>
     <button class="buy-btn" id="buy-btn" onclick="goBuy()">購入する →</button>
   </div>
 </div>
 
-<!-- ████ COLOR MODAL ████ -->
+<!-- ████ COLOR MODAL (in-room picker) ████ -->
 <div id="color-modal" class="hidden">
   <div class="modal-box">
     <h3>🎨 色を取得</h3>
@@ -405,6 +596,79 @@ header h1 { font-size: 17px; font-weight: bold; }
       <button class="ok" onclick="applyColor()">この色を使う</button>
     </div>
   </div>
+</div>
+
+<!-- ████ PRODUCT DETAIL MODAL ████ -->
+<div id="detail-modal" class="hidden">
+  <div class="detail-box">
+
+    <!-- Handle bar -->
+    <div style="padding:10px 16px 0; flex-shrink:0">
+      <div class="detail-handle"></div>
+    </div>
+
+    <!-- Header -->
+    <div class="detail-header">
+      <div class="detail-title-wrap">
+        <div class="detail-product-name" id="detail-name"></div>
+      </div>
+      <button class="detail-close" onclick="closeDetailModal()">✕</button>
+    </div>
+
+    <!-- Image gallery -->
+    <div class="detail-gallery" id="detail-gallery"></div>
+
+    <!-- Product info -->
+    <div class="detail-info">
+      <div class="detail-price" id="detail-price"></div>
+      <div class="detail-caption" id="detail-caption"></div>
+    </div>
+
+    <!-- Color selection -->
+    <div class="detail-section">
+      <h4>🎨 カラーを選択</h4>
+      <div class="swatches-grid" id="swatches-grid"></div>
+      <div class="hex-row">
+        <span>カラーコード:</span>
+        <input type="color" id="detail-color-picker">
+        <input type="text" id="detail-hex-input" placeholder="#C9B49A" maxlength="7">
+      </div>
+    </div>
+
+    <!-- Size input -->
+    <div class="detail-section">
+      <h4>📐 サイズを確認・調整</h4>
+      <div class="size-row">
+        <div class="size-field">
+          <label>幅</label>
+          <div class="size-field-inner">
+            <input type="number" id="detail-w" min="30" max="400" placeholder="120">
+            <span>cm</span>
+          </div>
+        </div>
+        <div class="size-field">
+          <label>奥行き</label>
+          <div class="size-field-inner">
+            <input type="number" id="detail-h" min="20" max="300" placeholder="80">
+            <span>cm</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="detail-footer">
+      <button class="rakuten-btn" id="detail-rakuten-btn">楽天で詳細を見る 🔗</button>
+      <button class="add-room-btn" onclick="addFromDetail()">この色・サイズで部屋に追加</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ████ LIGHTBOX ████ -->
+<div id="lightbox" class="hidden" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
 </div>
 
 <!-- ████ SEARCH RESULTS ████ -->
@@ -441,26 +705,47 @@ const ROOM_CM = {
 };
 
 const FURN_DEFAULTS = {
-  sofa:    { w: 190, h: 85,  color: '#9C7856', label: 'ソファ' },
-  table:   { w: 120, h: 75,  color: '#C8A870', label: 'テーブル' },
-  storage: { w: 90,  h: 45,  color: '#C4A882', label: '収納' },
-  bed:     { w: 140, h: 200, color: '#7EB8D4', label: 'ベッド' }
+  sofa:    { w: 190, h: 85,  color: '#C9B49A', label: 'ソファ' },
+  table:   { w: 120, h: 75,  color: '#C9B49A', label: 'テーブル' },
+  storage: { w: 90,  h: 45,  color: '#EDE8DC', label: '収納' },
+  bed:     { w: 140, h: 200, color: '#7B9BB5', label: 'ベッド' }
 };
+
+const PRESET_COLORS = [
+  { hex: '#C8C8C8', name: 'ライトグレー' },
+  { hex: '#606060', name: 'チャコール' },
+  { hex: '#2C3E6B', name: 'ネイビー' },
+  { hex: '#7B9BB5', name: 'スモーキーブルー' },
+  { hex: '#8B6F5E', name: 'モカ' },
+  { hex: '#5C3D2E', name: 'ブラウン' },
+  { hex: '#C9B49A', name: 'ベージュ' },
+  { hex: '#EDE8DC', name: 'アイボリー' },
+  { hex: '#F5F2ED', name: 'オフホワイト' },
+  { hex: '#7A9E7E', name: 'グリーン' },
+  { hex: '#7D7A5F', name: 'カーキ' },
+  { hex: '#C4785A', name: 'テラコッタ' },
+  { hex: '#C9A84C', name: 'マスタード' },
+  { hex: '#2A2A2A', name: 'ブラック' },
+  { hex: '#F8F8F8', name: 'ホワイト' }
+];
 
 // ════════════════════════════════
 // State
 // ════════════════════════════════
 const S = {
-  roomSize: 6,
-  furniture: [],
-  selectedId: null,
-  nextId: 1,
-  category: 'ソファ',
-  catType: 'sofa',
-  pickedColor: '#9C7856',
-  searchItems: [],
-  drag: null,
-  isoMode: false
+  roomSize:     6,
+  furniture:    [],
+  selectedId:   null,
+  nextId:       1,
+  category:     'ソファ',
+  catType:      'sofa',
+  pickedColor:  '#C9B49A',
+  searchItems:  [],
+  drag:         null,
+  isoMode:      false,
+  // Detail modal
+  pendingIdx:   null,
+  pendingColor: '#C9B49A'
 };
 
 // ════════════════════════════════
@@ -487,7 +772,6 @@ function initRoom() {
 
   document.getElementById('room-dim').textContent = `${w}×${h}cm`;
 
-  // Scale bar
   const sb = document.getElementById('scale-bar');
   sb.innerHTML = '';
   const bx = w - 115, by = h - 12;
@@ -511,19 +795,15 @@ function s(tag, attrs = {}) {
   for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
   return el;
 }
-
 function sr(x, y, w, h, fill, stroke = 'none', sw = 0, rx = 2) {
   return s('rect', { x, y, width: w, height: h, fill, stroke, 'stroke-width': sw, rx });
 }
-
 function sl(x1, y1, x2, y2, stroke, sw = 1) {
   return s('line', { x1, y1, x2, y2, stroke, 'stroke-width': sw });
 }
-
 function sc(cx, cy, r, fill) {
   return s('circle', { cx, cy, r, fill });
 }
-
 function shade(hex, amt) {
   if (!hex || hex[0] !== '#' || hex.length < 7) return hex || '#888';
   const r = parseInt(hex.slice(1, 3), 16);
@@ -597,26 +877,21 @@ function renderAllFurniture() {
   grp.innerHTML = '';
   S.furniture.forEach(f => grp.append(makeFurnEl(f)));
 }
-
 function makeFurnEl(f) {
   const g = s('g', { id: `f-${f.id}`, transform: `translate(${f.x},${f.y})`, style: 'cursor:move' });
   if (f.id === S.selectedId) g.classList.add('furniture-sel');
   g.append(drawShape(f));
-
   const fs  = Math.min(f.w, f.h) * .2;
   const lbl = s('text', {
     x: f.w / 2, y: f.h / 2 + fs * .35,
     'text-anchor': 'middle',
     'font-size': Math.max(6, Math.min(fs, 14)),
-    fill: 'rgba(0,0,0,.45)',
-    'pointer-events': 'none',
-    'font-weight': '500'
+    fill: 'rgba(0,0,0,.45)', 'pointer-events': 'none', 'font-weight': '500'
   });
   lbl.textContent = f.name;
   g.append(lbl);
   return g;
 }
-
 function updateFurnEl(f) {
   const old = document.getElementById(`f-${f.id}`);
   if (!old) return;
@@ -633,9 +908,8 @@ function svgPt(e) {
   p.x = src.clientX; p.y = src.clientY;
   return p.matrixTransform(svg.getScreenCTM().inverse());
 }
-
 document.getElementById('room-svg').addEventListener('pointerdown', e => {
-  if (S.isoMode) return;  // drag disabled in iso view
+  if (S.isoMode) return;
   e.preventDefault();
   const pt = svgPt(e);
   let el = e.target;
@@ -643,30 +917,23 @@ document.getElementById('room-svg').addEventListener('pointerdown', e => {
     if (el.id && el.id.startsWith('f-')) {
       const id = parseInt(el.id.slice(2));
       const f  = S.furniture.find(x => x.id === id);
-      if (f) {
-        selectFurn(id);
-        S.drag = { id, sx: pt.x, sy: pt.y, fx: f.x, fy: f.y };
-        return;
-      }
+      if (f) { selectFurn(id); S.drag = { id, sx: pt.x, sy: pt.y, fx: f.x, fy: f.y }; return; }
     }
     el = el.parentElement;
   }
   deselect();
 }, { passive: false });
-
 document.getElementById('room-svg').addEventListener('pointermove', e => {
   if (!S.drag) return;
   e.preventDefault();
-  const pt        = svgPt(e);
-  const { w, h }  = ROOM_CM[S.roomSize];
-  const f         = S.furniture.find(x => x.id === S.drag.id);
+  const pt       = svgPt(e);
+  const { w, h } = ROOM_CM[S.roomSize];
+  const f        = S.furniture.find(x => x.id === S.drag.id);
   if (!f) return;
   f.x = Math.max(0, Math.min(w - f.w, S.drag.fx + pt.x - S.drag.sx));
   f.y = Math.max(0, Math.min(h - f.h, S.drag.fy + pt.y - S.drag.sy));
-  document.getElementById(`f-${f.id}`)
-    ?.setAttribute('transform', `translate(${f.x},${f.y})`);
+  document.getElementById(`f-${f.id}`)?.setAttribute('transform', `translate(${f.x},${f.y})`);
 }, { passive: false });
-
 document.getElementById('room-svg').addEventListener('pointerup',    () => { S.drag = null; });
 document.getElementById('room-svg').addEventListener('pointerleave', () => { S.drag = null; });
 
@@ -678,14 +945,10 @@ function selectFurn(id) {
   S.selectedId = id;
   const f = S.furniture.find(x => x.id === id);
   if (!f) return;
-
   document.getElementById(`f-${id}`)?.classList.add('furniture-sel');
-
-  // Show truncated name with full name in title
   const nameEl = document.getElementById('fp-name');
   nameEl.textContent = f.fullName || f.name;
   nameEl.title       = f.fullName || '';
-
   document.getElementById('sl-w').value        = f.w;
   document.getElementById('sl-h').value        = f.h;
   document.getElementById('lbl-w').textContent = f.w;
@@ -694,30 +957,25 @@ function selectFurn(id) {
   document.getElementById('buy-btn').disabled = !f.url;
   document.getElementById('furn-panel').classList.remove('hidden');
 }
-
 function deselect() {
   document.getElementById(`f-${S.selectedId}`)?.classList.remove('furniture-sel');
   S.selectedId = null;
   document.getElementById('furn-panel').classList.add('hidden');
 }
-
 function deleteSelected() {
   if (S.selectedId === null) return;
-  S.furniture = S.furniture.filter(x => x.id !== S.selectedId);
+  S.furniture  = S.furniture.filter(x => x.id !== S.selectedId);
   S.selectedId = null;
   document.getElementById('furn-panel').classList.add('hidden');
   renderAllFurniture();
 }
-
 function clearRoom() {
-  if (S.furniture.length === 0) return;
+  if (!S.furniture.length) return;
   if (!confirm('部屋をリセットしますか？')) return;
-  S.furniture  = [];
-  S.selectedId = null;
+  S.furniture  = []; S.selectedId = null;
   document.getElementById('furn-panel').classList.add('hidden');
   renderAllFurniture();
 }
-
 function onSizeChange() {
   if (S.selectedId === null) return;
   const f = S.furniture.find(x => x.id === S.selectedId);
@@ -731,7 +989,6 @@ function onSizeChange() {
   f.y = Math.min(f.y, rh - f.h);
   updateFurnEl(f);
 }
-
 function rotateFurniture() {
   if (S.selectedId === null) return;
   const f = S.furniture.find(x => x.id === S.selectedId);
@@ -746,7 +1003,6 @@ function rotateFurniture() {
   document.getElementById('lbl-h').textContent = f.h;
   updateFurnEl(f);
 }
-
 function goBuy() {
   const f = S.furniture.find(x => x.id === S.selectedId);
   if (f?.url) window.open(f.url, '_blank', 'noopener');
@@ -771,59 +1027,119 @@ function estimateSizeFromName(name, type) {
   const def = FURN_DEFAULTS[type];
   let w = 0, h = 0;
 
-  // "120×80", "W120×D80", "120x80"
   const dimM = name.match(/(\d+)\s*[×xXｘ]\s*(\d+)/);
   if (dimM) { w = parseInt(dimM[1]); h = parseInt(dimM[2]); }
 
-  // 幅 + number
   if (!w) { const m = name.match(/幅\s*(\d{2,3})/); if (m) w = parseInt(m[1]); }
-
-  // W= or W: or W number (cm notation)
   if (!w) { const m = name.match(/[Ww]\s*[=:：]?\s*(\d{2,3})/); if (m) w = parseInt(m[1]); }
-
-  // Standalone NNNcm
   if (!w) { const m = name.match(/(\d{2,3})\s*cm/i); if (m) w = parseInt(m[1]); }
 
-  // ── Type-specific ──
   if (type === 'bed') {
-    if      (/キング/.test(name))    { w = w || 180; }
-    else if (/クイーン/.test(name))  { w = w || 160; }
-    else if (/セミダブル/.test(name)){ w = w || 120; }
-    else if (/ダブル/.test(name))    { w = w || 140; }
-    else if (/シングル/.test(name))  { w = w || 97;  }
+    if      (/キング/.test(name))     { w = w || 180; }
+    else if (/クイーン/.test(name))   { w = w || 160; }
+    else if (/セミダブル/.test(name)) { w = w || 120; }
+    else if (/ダブル/.test(name))     { w = w || 140; }
+    else if (/シングル/.test(name))   { w = w || 97;  }
     h = h || 200;
   }
-
   if (type === 'sofa' && !w) {
     if (/[Ll]字|コーナー/.test(name)) { w = 240; h = 160; }
     else {
       const m = name.match(/([1-4])\s*人掛け/);
-      if (m) { w = [80, 130, 190, 240][parseInt(m[1]) - 1] || 190; }
+      if (m) w = [80, 130, 190, 240][parseInt(m[1]) - 1] || 190;
     }
   }
-
   if (type === 'table' && !h && w) {
     h = /丸|円形|ラウンド/.test(name) ? w : Math.round(w * .625);
   }
 
-  // Sanity check
   if (w < 30 || w > 400) w = 0;
   if (h < 20 || h > 400) h = 0;
-
   return { w: w || def.w, h: h || def.h };
 }
 
 // ════════════════════════════════
-// Add product to room
+// Product detail modal
 // ════════════════════════════════
-function addProductToRoom(idx) {
+function openDetailModal(idx) {
   const item = S.searchItems[idx];
   if (!item) return;
+  S.pendingIdx = idx;
 
-  const def           = FURN_DEFAULTS[S.catType] || FURN_DEFAULTS.sofa;
+  // Product name (full, no truncation)
+  document.getElementById('detail-name').textContent = item.itemName || '';
+
+  // Gallery
+  const gallery = document.getElementById('detail-gallery');
+  gallery.innerHTML = '';
+  const urls = item.mediumImageUrls || [];
+  if (urls.length) {
+    urls.forEach(({ imageUrl }) => {
+      const img = document.createElement('img');
+      img.className   = 'gallery-img';
+      img.src         = (imageUrl || '').replace(/\?_ex=\d+x\d+/, '?_ex=300x300');
+      img.alt         = '';
+      img.loading     = 'lazy';
+      img.onclick     = () => openLightbox(img.src);
+      gallery.appendChild(img);
+    });
+  } else {
+    const ph = document.createElement('div');
+    ph.className   = 'no-img-placeholder';
+    ph.textContent = '画像なし';
+    gallery.appendChild(ph);
+  }
+
+  // Price
+  document.getElementById('detail-price').textContent =
+    item.itemPrice ? `¥${Number(item.itemPrice).toLocaleString()}` : '';
+
+  // Caption (200 chars)
+  const cap = (item.itemCaption || '').replace(/<[^>]+>/g, '').trim();
+  document.getElementById('detail-caption').textContent =
+    cap.length > 200 ? cap.slice(0, 200) + '…' : cap || '商品説明がありません';
+
+  // Color: default to category default
+  selectDetailColor(FURN_DEFAULTS[S.catType]?.color || PRESET_COLORS[6].hex);
+
+  // Size: auto-estimate
+  const size = estimateSizeFromName(item.itemName || '', S.catType);
+  document.getElementById('detail-w').value = size.w;
+  document.getElementById('detail-h').value = size.h;
+
+  // Rakuten link button
+  document.getElementById('detail-rakuten-btn').onclick = () => {
+    if (item.itemUrl) window.open(item.itemUrl, '_blank', 'noopener');
+  };
+
+  document.getElementById('detail-modal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function selectDetailColor(hex) {
+  if (!hex || !/^#[0-9a-fA-F]{6}$/.test(hex)) return;
+  S.pendingColor = hex;
+  document.querySelectorAll('.swatch-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.hex === hex);
+  });
+  document.getElementById('detail-color-picker').value = hex;
+  document.getElementById('detail-hex-input').value    = hex;
+}
+
+function closeDetailModal() {
+  document.getElementById('detail-modal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+function addFromDetail() {
+  const item = S.searchItems[S.pendingIdx];
+  if (!item) return;
+
+  const def   = FURN_DEFAULTS[S.catType] || FURN_DEFAULTS.sofa;
+  const w     = Math.max(30, parseInt(document.getElementById('detail-w').value) || def.w);
+  const h     = Math.max(20, parseInt(document.getElementById('detail-h').value) || def.h);
   const { w: rw, h: rh } = ROOM_CM[S.roomSize];
-  const size          = estimateSizeFromName(item.itemName || '', S.catType);
-  const nudge         = (S.furniture.length % 5) * 8;
+  const nudge = (S.furniture.length % 5) * 8;
 
   const f = {
     id:       S.nextId++,
@@ -831,19 +1147,115 @@ function addProductToRoom(idx) {
     name:     (item.itemName || def.label).slice(0, 8) + ((item.itemName?.length || 0) > 8 ? '…' : ''),
     fullName: item.itemName || def.label,
     url:      item.itemUrl || '',
-    imageUrl: item.mediumImageUrls?.[0]?.imageUrl?.replace(/\?_ex=\d+x\d+/, '?_ex=400x400') || '',
-    color:    def.color,
-    w:        size.w,
-    h:        size.h,
-    x:        Math.max(0, Math.min(rw - size.w, (rw - size.w) / 2 + nudge)),
-    y:        Math.max(0, Math.min(rh - size.h, (rh - size.h) / 2 + nudge))
+    imageUrl: (item.mediumImageUrls?.[0]?.imageUrl || '').replace(/\?_ex=\d+x\d+/, '?_ex=400x400'),
+    color:    S.pendingColor,
+    w, h,
+    x: Math.max(0, Math.min(rw - w, (rw - w) / 2 + nudge)),
+    y: Math.max(0, Math.min(rh - h, (rh - h) / 2 + nudge))
   };
 
   S.furniture.push(f);
+  closeDetailModal();
   renderAllFurniture();
   selectFurn(f.id);
   showToast('追加しました ✓');
   document.getElementById('room-wrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ════════════════════════════════
+// Lightbox
+// ════════════════════════════════
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.remove('hidden');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.add('hidden');
+}
+
+// ════════════════════════════════
+// Build color swatches (called once on init)
+// ════════════════════════════════
+function buildSwatches() {
+  const grid = document.getElementById('swatches-grid');
+  grid.innerHTML = PRESET_COLORS.map(c => `
+    <div class="swatch-item" data-hex="${c.hex}" onclick="selectDetailColor('${c.hex}')">
+      <div class="swatch-circle" style="background:${c.hex}">
+        <span class="swatch-check">✓</span>
+      </div>
+      <span class="swatch-name">${c.name}</span>
+    </div>`).join('');
+
+  // Color picker sync
+  document.getElementById('detail-color-picker').addEventListener('input', e => {
+    selectDetailColor(e.target.value);
+  });
+  document.getElementById('detail-hex-input').addEventListener('change', e => {
+    const v = e.target.value.trim();
+    if (/^#[0-9a-fA-F]{6}$/.test(v)) selectDetailColor(v);
+  });
+}
+
+// ════════════════════════════════
+// In-room color picker (for already-placed furniture)
+// ════════════════════════════════
+function openColorModal() {
+  if (S.selectedId === null) return;
+  const f = S.furniture.find(x => x.id === S.selectedId);
+  if (!f) return;
+  setPickedColor(f.color);
+  const canvas = document.getElementById('color-canvas');
+  const ctx    = canvas.getContext('2d');
+  canvas.style.display = 'none';
+  canvas.onclick       = null;
+  document.getElementById('color-desc').textContent = 'カラーピッカーで色を選択してください';
+  if (f.imageUrl) {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      canvas.width  = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      canvas.style.display = 'block';
+      canvas.onclick = ev => pickFromCanvas(ev, canvas, ctx);
+      document.getElementById('color-desc').textContent = '商品写真をタップして色を選択できます';
+    };
+    img.onerror = () => { /* silent */ };
+    img.src = f.imageUrl;
+  }
+  document.getElementById('eyedropper-btn').style.display = window.EyeDropper ? '' : 'none';
+  document.getElementById('color-modal').classList.remove('hidden');
+}
+function pickFromCanvas(e, canvas, ctx) {
+  const r = canvas.getBoundingClientRect();
+  const x = (e.clientX - r.left) * (canvas.width  / r.width);
+  const y = (e.clientY - r.top)  * (canvas.height / r.height);
+  try {
+    const px = ctx.getImageData(x, y, 1, 1).data;
+    setPickedColor(rgbHex(px[0], px[1], px[2]));
+  } catch {
+    canvas.style.display = 'none'; canvas.onclick = null;
+  }
+}
+async function useEyeDropper() {
+  if (!window.EyeDropper) return;
+  try { const r = await new EyeDropper().open(); setPickedColor(r.sRGBHex); } catch { /* cancelled */ }
+}
+function setPickedColor(hex) {
+  S.pickedColor = hex;
+  document.getElementById('picked-swatch').style.background = hex;
+  document.getElementById('manual-color').value             = hex;
+}
+function applyColor() {
+  const f = S.furniture.find(x => x.id === S.selectedId);
+  if (f) {
+    f.color = S.pickedColor;
+    document.getElementById('cur-color-dot').style.background = S.pickedColor;
+    updateFurnEl(f);
+  }
+  closeColorModal();
+}
+function closeColorModal() {
+  document.getElementById('color-modal').classList.add('hidden');
 }
 
 // ════════════════════════════════
@@ -854,14 +1266,11 @@ document.querySelectorAll('.sz-btn').forEach(btn => {
     document.querySelectorAll('.sz-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     S.roomSize = parseInt(btn.dataset.size);
-
-    // Clamp existing furniture positions to new room bounds
     const { w: rw, h: rh } = ROOM_CM[S.roomSize];
     S.furniture.forEach(f => {
       f.x = Math.max(0, Math.min(rw - f.w, f.x));
       f.y = Math.max(0, Math.min(rh - f.h, f.y));
     });
-
     initRoom();
   });
 });
@@ -875,7 +1284,6 @@ document.querySelectorAll('.cat-btn').forEach(btn => {
     btn.classList.add('active');
     S.category = btn.dataset.cat;
     S.catType  = btn.dataset.type;
-    // Auto-fill search input with category keyword
     document.getElementById('search-input').value = btn.dataset.cat;
     doSearch();
   });
@@ -897,22 +1305,17 @@ function doSearch() {
 async function rakutenSearch(kw) {
   const url = `/api/search?keyword=${encodeURIComponent(kw)}&hits=12&sort=-reviewCount`;
   console.log('[Rakuten] Request:', location.origin + url);
-
   try {
     const res  = await fetch(url);
     console.log('[Rakuten] HTTP status:', res.status);
-
     const data = await res.json();
-
     if (!res.ok || !data.Items) {
       console.error('[Rakuten] Error response:', data);
       showError(data.error_description || data.error || 'データの取得に失敗しました。');
       return;
     }
-
-    const items   = data.Items.map(i => i.Item || i);
-    S.searchItems = items;
-    renderResults(items);
+    S.searchItems = data.Items.map(i => i.Item || i);
+    renderResults(S.searchItems);
   } catch (err) {
     console.error('[Rakuten] Fetch error:', err);
     showError('APIの呼び出しに失敗しました。');
@@ -922,13 +1325,10 @@ async function rakutenSearch(kw) {
 function renderResults(items) {
   document.getElementById('results-title').textContent =
     items.length ? `${items.length}件の商品` : '商品が見つかりませんでした';
-
   if (!items.length) {
-    document.getElementById('results-list').innerHTML =
-      '<p class="hint">検索キーワードを変えてみてください</p>';
+    document.getElementById('results-list').innerHTML = '<p class="hint">検索キーワードを変えてみてください</p>';
     return;
   }
-
   document.getElementById('results-list').innerHTML = items.map((item, i) => {
     const img   = item.mediumImageUrls?.[0]?.imageUrl || '';
     const price = item.itemPrice ? `¥${Number(item.itemPrice).toLocaleString()}` : '';
@@ -941,106 +1341,26 @@ function renderResults(items) {
           <div class="result-name">${esc(item.itemName || '')}</div>
           <div class="result-price">${price}</div>
         </div>
-        <button class="result-add" data-idx="${i}">追加</button>
+        <button class="result-add" data-idx="${i}">詳細・追加</button>
       </div>`;
   }).join('');
 }
 
+// Event delegation: open detail modal instead of adding directly
 document.getElementById('results-list').addEventListener('click', e => {
   const el  = e.target.closest('.result-add') || e.target.closest('.result-item');
   if (!el) return;
   const idx = parseInt(el.dataset.idx);
-  if (!isNaN(idx)) addProductToRoom(idx);
+  if (!isNaN(idx)) openDetailModal(idx);
 });
 
 function showLoading(msg = '読み込み中…') {
   document.getElementById('results-title').textContent = msg;
   document.getElementById('results-list').innerHTML = `<p class="loading">⏳ ${msg}</p>`;
 }
-
 function showError(msg) {
   document.getElementById('results-title').textContent = 'エラー';
   document.getElementById('results-list').innerHTML = `<p class="hint">⚠️ ${msg}</p>`;
-}
-
-// ════════════════════════════════
-// Color picker
-// ════════════════════════════════
-function openColorModal() {
-  if (S.selectedId === null) return;
-  const f = S.furniture.find(x => x.id === S.selectedId);
-  if (!f) return;
-
-  setPickedColor(f.color);
-
-  const canvas = document.getElementById('color-canvas');
-  const ctx    = canvas.getContext('2d');
-  canvas.style.display = 'none';
-  canvas.onclick       = null;
-
-  document.getElementById('color-desc').textContent =
-    'カラーピッカーで色を選択してください';
-
-  if (f.imageUrl) {
-    const img       = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      canvas.width         = img.naturalWidth;
-      canvas.height        = img.naturalHeight;
-      canvas.style.display = 'block';
-      canvas.onclick       = ev => pickFromCanvas(ev, canvas, ctx);
-      document.getElementById('color-desc').textContent =
-        '商品写真をタップして色を選択できます';
-    };
-    img.onerror = () => { /* silent – color picker is already shown */ };
-    img.src = f.imageUrl;
-  }
-
-  document.getElementById('eyedropper-btn').style.display =
-    window.EyeDropper ? '' : 'none';
-  document.getElementById('color-modal').classList.remove('hidden');
-}
-
-function pickFromCanvas(e, canvas, ctx) {
-  const r  = canvas.getBoundingClientRect();
-  const x  = (e.clientX - r.left) * (canvas.width  / r.width);
-  const y  = (e.clientY - r.top)  * (canvas.height / r.height);
-  try {
-    const px = ctx.getImageData(x, y, 1, 1).data;
-    setPickedColor(rgbHex(px[0], px[1], px[2]));
-  } catch {
-    // CORS blocked – silently hide canvas and let user use manual picker
-    canvas.style.display = 'none';
-    canvas.onclick       = null;
-  }
-}
-
-async function useEyeDropper() {
-  if (!window.EyeDropper) return;
-  try {
-    const result = await new EyeDropper().open();
-    setPickedColor(result.sRGBHex);
-  } catch { /* cancelled */ }
-}
-
-function setPickedColor(hex) {
-  S.pickedColor = hex;
-  document.getElementById('picked-swatch').style.background = hex;
-  document.getElementById('manual-color').value             = hex;
-}
-
-function applyColor() {
-  const f = S.furniture.find(x => x.id === S.selectedId);
-  if (f) {
-    f.color = S.pickedColor;
-    document.getElementById('cur-color-dot').style.background = S.pickedColor;
-    updateFurnEl(f);
-  }
-  closeColorModal();
-}
-
-function closeColorModal() {
-  document.getElementById('color-modal').classList.add('hidden');
 }
 
 // ════════════════════════════════
@@ -1061,24 +1381,21 @@ function showToast(msg) {
 function rgbHex(r, g, b) {
   return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
 }
-
 function esc(str) {
   return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 // ════════════════════════════════
 // Init
 // ════════════════════════════════
 function init() {
+  buildSwatches();
   initRoom();
   document.getElementById('search-input').value = S.category;
   doSearch();
 }
-
 window.addEventListener('DOMContentLoaded', init);
 window.addEventListener('resize', initRoom);
 </script>
