@@ -8,8 +8,6 @@
 :root {
   --red: #e4001b;
   --red-bg: #fff0f0;
-  --floor: #f5ead8;
-  --wall: #7a5c3a;
   --card: #fff;
   --bg: #f0f0f0;
   --border: #ddd;
@@ -19,13 +17,9 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  max-width: 600px;
-  margin: 0 auto;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
+  background: var(--bg); color: var(--text);
+  max-width: 600px; margin: 0 auto;
+  min-height: 100dvh; display: flex; flex-direction: column;
 }
 
 /* ── Header ── */
@@ -38,28 +32,23 @@ header {
 }
 header h1 { font-size: 17px; font-weight: bold; }
 .btn-icon {
-  background: rgba(255,255,255,.2); border: none;
-  color: #fff; width: 36px; height: 36px;
-  border-radius: 50%; font-size: 16px;
+  background: rgba(255,255,255,.2); border: none; color: #fff;
+  width: 36px; height: 36px; border-radius: 50%; font-size: 16px;
   cursor: pointer; display: grid; place-items: center;
 }
 
 /* ── Category tabs ── */
 #categories {
-  background: var(--card);
-  padding: 8px 12px;
-  display: flex; gap: 8px;
-  overflow-x: auto; -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+  background: var(--card); padding: 8px 12px;
+  display: flex; gap: 8px; overflow-x: auto;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
   border-bottom: 1px solid var(--border);
 }
 #categories::-webkit-scrollbar { display: none; }
 .cat-btn {
-  flex-shrink: 0;
-  padding: 6px 14px;
+  flex-shrink: 0; padding: 6px 14px;
   border: 1.5px solid var(--border); border-radius: 20px;
-  background: #fff; color: var(--text);
-  font-size: 13px; cursor: pointer;
+  background: #fff; color: var(--text); font-size: 13px; cursor: pointer;
 }
 .cat-btn.active {
   border-color: var(--red); color: var(--red);
@@ -68,436 +57,234 @@ header h1 { font-size: 17px; font-weight: bold; }
 
 /* ── Search ── */
 #search-bar {
-  background: var(--card);
-  padding: 8px 12px;
-  display: flex; gap: 8px;
-  border-bottom: 1px solid var(--border);
+  background: var(--card); padding: 8px 12px;
+  display: flex; gap: 8px; border-bottom: 1px solid var(--border);
 }
 #search-input {
   flex: 1; padding: 8px 12px;
-  border: 1.5px solid var(--border); border-radius: 8px;
-  font-size: 14px;
+  border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px;
 }
 #search-input:focus { outline: none; border-color: var(--red); }
 #search-btn {
-  background: var(--red); color: #fff;
-  border: none; border-radius: 8px;
-  padding: 8px 16px; font-size: 14px; cursor: pointer;
+  background: var(--red); color: #fff; border: none;
+  border-radius: 8px; padding: 8px 16px; font-size: 14px; cursor: pointer;
 }
 
 /* ── Room controls ── */
 #room-controls {
-  background: var(--card);
-  padding: 7px 12px;
-  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
-  border-bottom: 1px solid var(--border);
-  font-size: 13px;
+  background: var(--card); padding: 7px 12px;
+  display: flex; align-items: center; gap: 6px; flex-wrap: nowrap;
+  border-bottom: 1px solid var(--border); font-size: 13px;
+  overflow-x: auto; scrollbar-width: none;
 }
-#room-controls label { color: var(--muted); }
+#room-controls::-webkit-scrollbar { display: none; }
+#room-controls label { color: var(--muted); flex-shrink: 0; }
 .sz-btn {
-  padding: 4px 10px;
+  padding: 4px 10px; flex-shrink: 0;
   border: 1.5px solid var(--border); border-radius: 6px;
   background: #fff; font-size: 13px; cursor: pointer;
 }
 .sz-btn.active { background: var(--red); color: #fff; border-color: var(--red); }
-#room-dim { font-size: 11px; color: var(--muted); }
-#view-btn {
-  margin-left: auto;
-  padding: 4px 10px;
+#room-dim { font-size: 11px; color: var(--muted); white-space: nowrap; }
+#style-btn, #view-btn {
+  flex-shrink: 0; padding: 4px 10px;
   border: 1.5px solid var(--border); border-radius: 6px;
-  background: #fff; font-size: 12px; cursor: pointer;
-  white-space: nowrap;
+  background: #fff; font-size: 12px; cursor: pointer; white-space: nowrap;
 }
-#view-btn.iso-active {
-  background: #e8f4ff; border-color: #4a90e2; color: #4a90e2;
+#view-btn { margin-left: auto; }
+#view-btn.iso-active { background: #e8f4ff; border-color: #4a90e2; color: #4a90e2; }
+#style-btn.panel-open { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+
+/* ── Floor/Wall style panel ── */
+#room-style-panel {
+  background: var(--card); padding: 10px 16px;
+  border-bottom: 2px solid var(--red);
 }
+.rsp-row {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+}
+.rsp-row:last-child { margin-bottom: 0; }
+.rsp-label { font-size: 12px; color: var(--muted); width: 22px; flex-shrink: 0; }
+.rsp-swatches {
+  display: flex; gap: 6px; overflow-x: auto;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  padding: 3px 1px; flex: 1;
+}
+.rsp-swatches::-webkit-scrollbar { display: none; }
+.rsp-swatch {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  cursor: pointer; border: 2px solid rgba(0,0,0,.1);
+  position: relative; display: grid; place-items: center;
+  transition: transform .15s, border-color .15s;
+}
+.rsp-swatch.active { border: 2.5px solid var(--red); transform: scale(1.18); }
+.rsp-swatch-check {
+  color: #fff; font-size: 13px; font-weight: bold;
+  text-shadow: 0 1px 4px rgba(0,0,0,.6); opacity: 0;
+}
+.rsp-swatch.active .rsp-swatch-check { opacity: 1; }
 
 /* ── Room wrapper ── */
 #room-wrap {
-  background: #c8b89a;
-  padding: 14px;
+  background: #c8b89a; padding: 14px;
   display: flex; justify-content: center; align-items: flex-end;
-  perspective: 700px;
-  overflow: hidden;
+  perspective: 700px; overflow: hidden;
 }
-#iso-wrap {
-  transition: transform .4s cubic-bezier(.4,0,.2,1);
-  transform-origin: 50% 100%;
-  line-height: 0;
-}
+#iso-wrap { transition: transform .4s cubic-bezier(.4,0,.2,1); transform-origin: 50% 100%; line-height: 0; }
 #iso-wrap.iso { transform: rotateX(50deg); }
-#room-svg {
-  display: block; max-width: 100%;
-  touch-action: none;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,.25));
-}
+#room-svg { display: block; max-width: 100%; touch-action: none; filter: drop-shadow(0 4px 12px rgba(0,0,0,.25)); }
 .furniture-sel { filter: drop-shadow(0 0 5px rgba(228,0,27,.8)); }
-#iso-note {
-  text-align: center; font-size: 11px; color: #fff;
-  padding: 4px 0 0; opacity: .8;
-  display: none;
-}
+#iso-note { text-align: center; font-size: 11px; color: #fff; padding: 4px 0 0; opacity: .8; display: none; }
 #iso-note.show { display: block; }
 
 /* ── Furniture panel ── */
-#furn-panel {
-  background: var(--card);
-  border-top: 3px solid var(--red);
-  padding: 12px 16px;
-}
+#furn-panel { background: var(--card); border-top: 3px solid var(--red); padding: 12px 16px; }
 #furn-panel.hidden { display: none; }
-.fp-header {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 10px; gap: 8px;
-}
+.fp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 8px; }
 #fp-name {
   font-size: 13px; font-weight: bold; flex: 1;
   overflow: hidden; text-overflow: ellipsis;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-  line-height: 1.4;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.4;
 }
 .fp-header .del-btn {
-  background: #fee2e2; color: #dc2626;
-  border: none; border-radius: 6px;
-  padding: 4px 10px; font-size: 12px; cursor: pointer;
-  flex-shrink: 0;
+  background: #fee2e2; color: #dc2626; border: none;
+  border-radius: 6px; padding: 4px 10px; font-size: 12px; cursor: pointer; flex-shrink: 0;
 }
-.slider-row {
-  display: flex; align-items: center; gap: 10px;
-  margin-bottom: 7px;
-}
-.slider-row label {
-  font-size: 12px; color: var(--muted);
-  white-space: nowrap; min-width: 90px;
-}
+.slider-row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+.slider-row label { font-size: 12px; color: var(--muted); white-space: nowrap; min-width: 90px; }
 .slider-row input[type=range] { flex: 1; accent-color: var(--red); }
 .fp-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-.rot-btn {
-  padding: 9px 12px;
-  background: #f0f0f0; border: 1px solid var(--border);
-  border-radius: 8px; font-size: 13px; cursor: pointer;
-  white-space: nowrap;
-}
+.rot-btn { padding: 9px 12px; background: #f0f0f0; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; cursor: pointer; white-space: nowrap; }
 .color-btn {
-  flex: 1; padding: 9px;
-  background: #f5f5f5; border: 1px solid var(--border);
+  flex: 1; padding: 9px; background: #f5f5f5; border: 1px solid var(--border);
   border-radius: 8px; font-size: 13px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  min-width: 0;
+  display: flex; align-items: center; justify-content: center; gap: 6px; min-width: 0;
 }
-.color-dot {
-  width: 18px; height: 18px; border-radius: 50%;
-  border: 2px solid rgba(0,0,0,.15); flex-shrink: 0;
-}
-.buy-btn {
-  flex: 1; padding: 9px;
-  background: var(--red); color: #fff;
-  border: none; border-radius: 8px;
-  font-size: 14px; font-weight: bold; cursor: pointer;
-  min-width: 0;
-}
+.color-dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(0,0,0,.15); flex-shrink: 0; }
+.buy-btn { flex: 1; padding: 9px; background: var(--red); color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; min-width: 0; }
 .buy-btn:disabled { background: #ccc; cursor: default; }
 
-/* ── Color modal (in-room color picker) ── */
-#color-modal {
-  position: fixed; inset: 0; z-index: 400;
-  background: rgba(0,0,0,.5);
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px;
-}
+/* ── Color modal ── */
+#color-modal { position: fixed; inset: 0; z-index: 400; background: rgba(0,0,0,.5); display: flex; align-items: center; justify-content: center; padding: 20px; }
 #color-modal.hidden { display: none; }
-.modal-box {
-  background: #fff; border-radius: 14px;
-  padding: 20px; width: 100%; max-width: 380px;
-}
+.modal-box { background: #fff; border-radius: 14px; padding: 20px; width: 100%; max-width: 380px; }
 .modal-box h3 { font-size: 16px; margin-bottom: 8px; }
 .modal-box p  { font-size: 13px; color: var(--muted); margin-bottom: 10px; line-height: 1.5; }
-#color-canvas {
-  width: 100%; border-radius: 8px;
-  cursor: crosshair; display: none;
-  border: 1px solid var(--border);
-}
-.picked-row {
-  display: flex; align-items: center; gap: 8px; margin-top: 10px;
-}
+#color-canvas { width: 100%; border-radius: 8px; cursor: crosshair; display: none; border: 1px solid var(--border); }
+.picked-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
 .picked-row span { font-size: 13px; color: var(--muted); }
-#picked-swatch {
-  width: 32px; height: 32px; border-radius: 6px;
-  border: 2px solid var(--border); flex-shrink: 0;
-}
-#manual-color {
-  width: 44px; height: 32px; padding: 2px;
-  border-radius: 6px; border: 1px solid var(--border);
-  cursor: pointer;
-}
-#eyedropper-btn {
-  background: #f5f5f5; border: 1px solid var(--border);
-  border-radius: 6px; padding: 6px 10px;
-  font-size: 12px; cursor: pointer; white-space: nowrap;
-}
+#picked-swatch { width: 32px; height: 32px; border-radius: 6px; border: 2px solid var(--border); flex-shrink: 0; }
+#manual-color { width: 44px; height: 32px; padding: 2px; border-radius: 6px; border: 1px solid var(--border); cursor: pointer; }
+#eyedropper-btn { background: #f5f5f5; border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; font-size: 12px; cursor: pointer; white-space: nowrap; }
 .modal-footer { display: flex; gap: 8px; margin-top: 14px; }
-.modal-footer button {
-  flex: 1; padding: 10px;
-  border: 1px solid var(--border); border-radius: 8px;
-  font-size: 14px; cursor: pointer;
-}
+.modal-footer button { flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; cursor: pointer; }
 .modal-footer .ok { background: var(--red); color: #fff; border-color: var(--red); }
 
 /* ── Product detail modal ── */
-#detail-modal {
-  position: fixed; inset: 0; z-index: 300;
-  background: rgba(0,0,0,.55);
-  display: flex; align-items: flex-end; justify-content: center;
-}
+#detail-modal { position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,.55); display: flex; align-items: flex-end; justify-content: center; }
 #detail-modal.hidden { display: none; }
-.detail-box {
-  background: #fff;
-  width: 100%; max-width: 600px;
-  max-height: 94dvh;
-  border-radius: 16px 16px 0 0;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  display: flex; flex-direction: column;
-}
-.detail-header {
-  position: sticky; top: 0;
-  background: #fff; z-index: 10;
-  padding: 14px 16px 12px;
-  display: flex; align-items: flex-start; gap: 10px;
-  border-bottom: 1px solid var(--border);
-}
-.detail-handle {
-  width: 40px; height: 4px; border-radius: 2px;
-  background: #ccc; margin: 0 auto 10px;
-  flex-shrink: 0;
-}
+.detail-box { background: #fff; width: 100%; max-width: 600px; max-height: 94dvh; border-radius: 16px 16px 0 0; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; }
+.detail-header { position: sticky; top: 0; background: #fff; z-index: 10; padding: 14px 16px 12px; display: flex; align-items: flex-start; gap: 10px; border-bottom: 1px solid var(--border); }
+.detail-handle { width: 40px; height: 4px; border-radius: 2px; background: #ccc; margin: 0 auto 10px; }
 .detail-title-wrap { flex: 1; }
-.detail-product-name {
-  font-size: 14px; font-weight: bold; line-height: 1.4;
-}
-.detail-close {
-  background: #f0f0f0; border: none;
-  width: 32px; height: 32px; border-radius: 50%;
-  font-size: 16px; cursor: pointer; flex-shrink: 0;
-  display: grid; place-items: center;
-}
-
-/* Gallery */
-.detail-gallery {
-  display: flex; gap: 8px;
-  overflow-x: auto; -webkit-overflow-scrolling: touch;
-  padding: 12px 16px;
-  scrollbar-width: none;
-  flex-shrink: 0;
-  border-bottom: 1px solid var(--border);
-}
+.detail-product-name { font-size: 14px; font-weight: bold; line-height: 1.4; }
+.detail-close { background: #f0f0f0; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; cursor: pointer; flex-shrink: 0; display: grid; place-items: center; }
+.detail-gallery { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 12px 16px; scrollbar-width: none; flex-shrink: 0; border-bottom: 1px solid var(--border); }
 .detail-gallery::-webkit-scrollbar { display: none; }
-.gallery-img {
-  height: 110px; width: auto;
-  object-fit: cover; flex-shrink: 0;
-  border-radius: 8px; cursor: pointer;
-  border: 2px solid transparent;
-  transition: border-color .15s, transform .15s;
-}
+.gallery-img { height: 110px; width: auto; object-fit: cover; flex-shrink: 0; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: border-color .15s, transform .15s; }
 .gallery-img:hover { border-color: var(--red); transform: scale(1.03); }
-.no-img-placeholder {
-  width: 110px; height: 110px;
-  background: #f0f0f0; border-radius: 8px;
-  display: grid; place-items: center;
-  color: var(--muted); font-size: 12px;
-  flex-shrink: 0;
-}
-
-/* Product info */
-.detail-info {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-}
-.detail-price {
-  font-size: 20px; font-weight: bold;
-  color: var(--red); margin-bottom: 8px;
-}
-.detail-caption {
-  font-size: 12px; color: var(--muted); line-height: 1.6;
-}
-
-/* Section wrapper */
-.detail-section {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-}
-.detail-section h4 {
-  font-size: 13px; font-weight: bold; margin-bottom: 10px; color: var(--text);
-}
-
-/* Color swatches */
-.swatches-grid {
-  display: flex; flex-wrap: wrap; gap: 10px 8px;
-  margin-bottom: 12px;
-}
-.swatch-item {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 4px; cursor: pointer; width: 52px;
-}
-.swatch-circle {
-  width: 44px; height: 44px; border-radius: 50%;
-  border: 2px solid rgba(0,0,0,.12);
-  display: grid; place-items: center;
-  transition: transform .15s, border-color .15s;
-  position: relative;
-}
-.swatch-item.active .swatch-circle {
-  border: 3px solid var(--red);
-  transform: scale(1.12);
-}
-.swatch-check {
-  font-size: 17px; font-weight: bold;
-  color: #fff; opacity: 0;
-  text-shadow: 0 1px 4px rgba(0,0,0,.6);
-  transition: opacity .15s;
-}
+.no-img-placeholder { width: 110px; height: 110px; background: #f0f0f0; border-radius: 8px; display: grid; place-items: center; color: var(--muted); font-size: 12px; flex-shrink: 0; }
+.detail-info { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+.detail-price { font-size: 20px; font-weight: bold; color: var(--red); margin-bottom: 8px; }
+.detail-caption { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.detail-section { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+.detail-section h4 { font-size: 13px; font-weight: bold; margin-bottom: 10px; color: var(--text); }
+.swatches-grid { display: flex; flex-wrap: wrap; gap: 10px 8px; margin-bottom: 12px; }
+.swatch-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; width: 52px; }
+.swatch-circle { width: 44px; height: 44px; border-radius: 50%; border: 2px solid rgba(0,0,0,.12); display: grid; place-items: center; transition: transform .15s, border-color .15s; }
+.swatch-item.active .swatch-circle { border: 3px solid var(--red); transform: scale(1.12); }
+.swatch-check { font-size: 17px; font-weight: bold; color: #fff; opacity: 0; text-shadow: 0 1px 4px rgba(0,0,0,.6); transition: opacity .15s; }
 .swatch-item.active .swatch-check { opacity: 1; }
-.swatch-name {
-  font-size: 9px; color: var(--muted);
-  text-align: center; line-height: 1.2;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  max-width: 52px;
-}
-.hex-row {
-  display: flex; align-items: center; gap: 8px; margin-top: 4px;
-}
+.swatch-name { font-size: 9px; color: var(--muted); text-align: center; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 52px; }
+.hex-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
 .hex-row span { font-size: 12px; color: var(--muted); white-space: nowrap; }
-#detail-color-picker {
-  width: 40px; height: 34px; padding: 2px;
-  border-radius: 6px; border: 1px solid var(--border); cursor: pointer;
-}
-#detail-hex-input {
-  flex: 1; padding: 7px 10px;
-  border: 1.5px solid var(--border); border-radius: 8px;
-  font-size: 13px; font-family: monospace;
-  max-width: 120px;
-}
+#detail-color-picker { width: 40px; height: 34px; padding: 2px; border-radius: 6px; border: 1px solid var(--border); cursor: pointer; }
+#detail-hex-input { flex: 1; padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; font-family: monospace; max-width: 120px; }
 #detail-hex-input:focus { outline: none; border-color: var(--red); }
-
-/* Size inputs */
-.size-row {
-  display: flex; gap: 12px;
-}
-.size-field {
-  flex: 1; display: flex; flex-direction: column; gap: 4px;
-}
+.size-row { display: flex; gap: 12px; }
+.size-field { flex: 1; display: flex; flex-direction: column; gap: 4px; }
 .size-field label { font-size: 12px; color: var(--muted); }
-.size-field-inner {
-  display: flex; align-items: center; gap: 4px;
-}
-.size-field input[type=number] {
-  flex: 1; padding: 8px 10px;
-  border: 1.5px solid var(--border); border-radius: 8px;
-  font-size: 15px; font-weight: bold; text-align: right;
-  width: 100%; -moz-appearance: textfield;
-}
+.size-field-inner { display: flex; align-items: center; gap: 4px; }
+.size-field input[type=number] { flex: 1; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 15px; font-weight: bold; text-align: right; width: 100%; -moz-appearance: textfield; }
 .size-field input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
 .size-field input[type=number]:focus { outline: none; border-color: var(--red); }
 .size-field span { font-size: 13px; color: var(--muted); }
-
-/* Footer buttons */
-.detail-footer {
-  position: sticky; bottom: 0;
-  background: #fff;
-  padding: 12px 16px;
-  display: flex; gap: 8px;
-  border-top: 1px solid var(--border);
-  margin-top: auto;
-}
-.rakuten-btn {
-  padding: 12px 10px;
-  background: #f5f5f5; border: 1px solid var(--border);
-  border-radius: 10px; font-size: 13px; cursor: pointer;
-  white-space: nowrap; flex-shrink: 0;
-}
-.add-room-btn {
-  flex: 1; padding: 12px;
-  background: var(--red); color: #fff;
-  border: none; border-radius: 10px;
-  font-size: 14px; font-weight: bold; cursor: pointer;
-}
+.detail-footer { position: sticky; bottom: 0; background: #fff; padding: 12px 16px; display: flex; gap: 8px; border-top: 1px solid var(--border); margin-top: auto; }
+.rakuten-btn { padding: 12px 10px; background: #f5f5f5; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+.add-room-btn { flex: 1; padding: 12px; background: var(--red); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; }
 
 /* ── Lightbox ── */
-#lightbox {
-  position: fixed; inset: 0; z-index: 500;
-  background: rgba(0,0,0,.92);
-  display: flex; align-items: center; justify-content: center;
-}
+#lightbox { position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,.92); display: flex; align-items: center; justify-content: center; }
 #lightbox.hidden { display: none; }
-#lightbox-img {
-  max-width: 100%; max-height: 100dvh;
-  object-fit: contain;
-}
-.lb-close {
-  position: absolute; top: 16px; right: 16px;
-  background: rgba(255,255,255,.15); border: none;
-  color: #fff; width: 42px; height: 42px;
-  border-radius: 50%; font-size: 20px; cursor: pointer;
-  display: grid; place-items: center;
-}
+#lightbox-img { max-width: 100%; max-height: 100dvh; object-fit: contain; }
+.lb-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,.15); border: none; color: #fff; width: 42px; height: 42px; border-radius: 50%; font-size: 20px; cursor: pointer; display: grid; place-items: center; }
 
 /* ── Search results ── */
-#results-section {
-  background: var(--card);
-  border-top: 1px solid var(--border);
-  flex: 1;
-}
-#results-header {
-  padding: 10px 16px;
-  display: flex; justify-content: space-between; align-items: center;
-  border-bottom: 1px solid var(--border);
-}
+#results-section { background: var(--card); border-top: 1px solid var(--border); flex: 1; }
+#results-header { padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
 #results-title { font-size: 13px; font-weight: bold; color: var(--muted); }
 #results-list { overflow-y: auto; max-height: 320px; }
-.result-item {
-  display: flex; align-items: center;
-  padding: 10px 14px; gap: 12px;
-  border-bottom: 1px solid var(--border);
-  cursor: pointer;
-}
+.result-item { display: flex; align-items: center; padding: 10px 14px; gap: 12px; border-bottom: 1px solid var(--border); cursor: pointer; }
 .result-item:hover { background: #fafafa; }
 .result-item:active { background: #f5f5f5; }
-.result-img {
-  width: 60px; height: 60px; object-fit: cover;
-  border-radius: 6px; flex-shrink: 0; background: #eee;
-}
+.result-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; flex-shrink: 0; background: #eee; }
 .result-info { flex: 1; min-width: 0; }
-.result-name {
-  font-size: 12px; color: var(--text);
-  display: -webkit-box;
-  -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-  overflow: hidden; margin-bottom: 4px; line-height: 1.4;
-}
+.result-name { font-size: 12px; color: var(--text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 4px; line-height: 1.4; }
 .result-price { font-size: 13px; font-weight: bold; color: var(--red); }
-.result-add {
-  background: var(--red); color: #fff;
-  border: none; border-radius: 6px;
-  padding: 6px 10px; font-size: 12px; cursor: pointer;
-  flex-shrink: 0; white-space: nowrap;
-}
+.result-add { background: var(--red); color: #fff; border: none; border-radius: 6px; padding: 6px 10px; font-size: 12px; cursor: pointer; flex-shrink: 0; white-space: nowrap; }
 .hint    { padding: 24px 16px; text-align: center; color: var(--muted); font-size: 13px; }
 .loading { padding: 24px 16px; text-align: center; color: var(--muted); font-size: 13px; }
 
 /* ── Toast ── */
-#toast {
-  position: fixed; bottom: 24px; left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  background: #1a1a1a; color: #fff;
-  padding: 9px 22px; border-radius: 24px;
-  font-size: 13px; font-weight: 500;
-  opacity: 0; pointer-events: none;
-  transition: opacity .25s, transform .25s;
-  z-index: 600; white-space: nowrap;
-}
+#toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(10px); background: #1a1a1a; color: #fff; padding: 9px 22px; border-radius: 24px; font-size: 13px; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 600; white-space: nowrap; }
 #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-/* ── Misc ── */
 .hidden { display: none !important; }
+
+/* ── Custom room size row ── */
+#custom-size-row {
+  background: var(--card); padding: 6px 12px;
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  border-bottom: 1px solid var(--border); font-size: 13px;
+}
+#custom-size-row label { color: var(--muted); flex-shrink: 0; }
+#custom-size-row input[type=number] {
+  width: 70px; padding: 5px 8px;
+  border: 1.5px solid var(--border); border-radius: 6px; font-size: 14px;
+  text-align: right; -moz-appearance: textfield;
+}
+#custom-size-row input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+#custom-size-row input[type=number]:focus { outline: none; border-color: var(--red); }
+#custom-size-apply {
+  padding: 5px 14px; background: var(--red); color: #fff;
+  border: none; border-radius: 6px; font-size: 13px; cursor: pointer;
+}
+
+/* ── Madori panel ── */
+#madori-panel {
+  background: var(--card); padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+#madori-panel p { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.madori-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+.madori-btn {
+  padding: 10px 18px; border: 1.5px solid var(--border);
+  border-radius: 10px; background: #fff; font-size: 13px; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  min-width: 68px; transition: background .12s, border-color .12s;
+}
+.madori-btn:active { background: #f0f0f0; }
+.madori-icon { font-size: 22px; line-height: 1; }
+.madori-label { font-size: 11px; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -510,16 +297,45 @@ header h1 { font-size: 17px; font-weight: bold; }
 
 <!-- ████ CATEGORIES ████ -->
 <div id="categories">
-  <button class="cat-btn active" data-cat="ソファ" data-type="sofa">🛋️ ソファ</button>
+  <button class="cat-btn active" data-cat="ソファ"      data-type="sofa">🛋️ ソファ</button>
   <button class="cat-btn" data-cat="ダイニングテーブル" data-type="table">🪑 テーブル</button>
-  <button class="cat-btn" data-cat="収納 家具" data-type="storage">🗄️ 収納</button>
-  <button class="cat-btn" data-cat="ベッド フレーム" data-type="bed">🛏️ ベッド</button>
+  <button class="cat-btn" data-cat="収納 家具"          data-type="storage">🗄️ 収納</button>
+  <button class="cat-btn" data-cat="ベッド フレーム"    data-type="bed">🛏️ ベッド</button>
+  <button class="cat-btn" data-cat="ダイニングチェア"   data-type="chair">🪑 チェア</button>
+  <button class="cat-btn" data-cat="テレビボード"       data-type="tvboard">📺 テレビボード</button>
+  <button class="cat-btn" data-cat="ラグ カーペット"    data-type="rug">🪴 ラグ</button>
+  <button class="cat-btn" data-cat="フロアランプ"       data-type="lamp">💡 照明</button>
+  <button class="cat-btn" data-cat="ドレッサー 鏡台"   data-type="mirror">🪞 鏡</button>
+  <button class="cat-btn" data-cat="madori"           data-type="madori">🚪 間取り</button>
 </div>
 
 <!-- ████ SEARCH ████ -->
 <div id="search-bar">
   <input id="search-input" type="search" placeholder="商品を検索...">
   <button id="search-btn" onclick="doSearch()">検索</button>
+</div>
+
+<!-- ████ MADORI PANEL ████ -->
+<div id="madori-panel" class="hidden">
+  <p>配置するオブジェクトを選択してください</p>
+  <div class="madori-grid">
+    <button class="madori-btn" onclick="addMadoriObject('door')">
+      <span class="madori-icon">🚪</span>
+      <span class="madori-label">ドア</span>
+    </button>
+    <button class="madori-btn" onclick="addMadoriObject('sliding')">
+      <span class="madori-icon">↔</span>
+      <span class="madori-label">引き戸</span>
+    </button>
+    <button class="madori-btn" onclick="addMadoriObject('window')">
+      <span class="madori-icon">🪟</span>
+      <span class="madori-label">窓</span>
+    </button>
+    <button class="madori-btn" onclick="addMadoriObject('pillar')">
+      <span class="madori-icon">⬛</span>
+      <span class="madori-label">柱</span>
+    </button>
+  </div>
 </div>
 
 <!-- ████ ROOM CONTROLS ████ -->
@@ -529,8 +345,32 @@ header h1 { font-size: 17px; font-weight: bold; }
   <button class="sz-btn" data-size="8">8畳</button>
   <button class="sz-btn" data-size="10">10畳</button>
   <button class="sz-btn" data-size="12">12畳</button>
+  <button class="sz-btn" data-size="custom">カスタム</button>
   <span id="room-dim"></span>
-  <button id="view-btn" onclick="toggleView()">🔲 アイソメ</button>
+  <button id="style-btn" onclick="toggleStylePanel()">🎨 床・壁</button>
+  <button id="view-btn"  onclick="toggleView()">🔲 アイソメ</button>
+</div>
+
+<!-- ████ CUSTOM ROOM SIZE ████ -->
+<div id="custom-size-row" class="hidden">
+  <label>幅:</label>
+  <input type="number" id="custom-w" min="100" max="800" value="364">
+  <label>cm &nbsp; 奥行き:</label>
+  <input type="number" id="custom-h" min="100" max="800" value="364">
+  <label>cm</label>
+  <button id="custom-size-apply" onclick="applyCustomSize()">適用</button>
+</div>
+
+<!-- ████ FLOOR/WALL STYLE PANEL ████ -->
+<div id="room-style-panel" class="hidden">
+  <div class="rsp-row">
+    <span class="rsp-label">床</span>
+    <div class="rsp-swatches" id="floor-swatches"></div>
+  </div>
+  <div class="rsp-row">
+    <span class="rsp-label">壁</span>
+    <div class="rsp-swatches" id="wall-swatches"></div>
+  </div>
 </div>
 
 <!-- ████ ROOM SVG ████ -->
@@ -545,10 +385,10 @@ header h1 { font-size: 17px; font-weight: bold; }
           <path d="M100 0H0V100" fill="none" stroke="rgba(0,0,0,.12)" stroke-width=".8"/>
         </pattern>
       </defs>
-      <rect id="svg-floor" fill="var(--floor)"/>
-      <rect id="svg-grid50" fill="url(#grid50)"/>
+      <rect id="svg-floor"   fill="#D4A96A"/>
+      <rect id="svg-grid50"  fill="url(#grid50)"/>
       <rect id="svg-grid100" fill="url(#grid100)"/>
-      <rect id="svg-wall" fill="none" stroke="var(--wall)" stroke-width="10"/>
+      <rect id="svg-wall"    fill="none" stroke="#7a5c3a" stroke-width="10"/>
       <g id="furn-group"></g>
       <g id="scale-bar"></g>
     </svg>
@@ -564,11 +404,11 @@ header h1 { font-size: 17px; font-weight: bold; }
   </div>
   <div class="slider-row">
     <label>幅: <span id="lbl-w">120</span>cm</label>
-    <input type="range" id="sl-w" min="40" max="380" oninput="onSizeChange()">
+    <input type="range" id="sl-w" min="20" max="380" oninput="onSizeChange()">
   </div>
   <div class="slider-row">
     <label>奥行き: <span id="lbl-h">80</span>cm</label>
-    <input type="range" id="sl-h" min="30" max="280" oninput="onSizeChange()">
+    <input type="range" id="sl-h" min="20" max="280" oninput="onSizeChange()">
   </div>
   <div class="fp-actions">
     <button class="rot-btn" onclick="rotateFurniture()">↻ 回転</button>
@@ -579,7 +419,7 @@ header h1 { font-size: 17px; font-weight: bold; }
   </div>
 </div>
 
-<!-- ████ COLOR MODAL (in-room picker) ████ -->
+<!-- ████ COLOR MODAL ████ -->
 <div id="color-modal" class="hidden">
   <div class="modal-box">
     <h3>🎨 色を取得</h3>
@@ -601,67 +441,52 @@ header h1 { font-size: 17px; font-weight: bold; }
 <!-- ████ PRODUCT DETAIL MODAL ████ -->
 <div id="detail-modal" class="hidden">
   <div class="detail-box">
-
-    <!-- Handle bar -->
-    <div style="padding:10px 16px 0; flex-shrink:0">
+    <div style="padding:10px 16px 0;flex-shrink:0">
       <div class="detail-handle"></div>
     </div>
-
-    <!-- Header -->
     <div class="detail-header">
       <div class="detail-title-wrap">
         <div class="detail-product-name" id="detail-name"></div>
       </div>
       <button class="detail-close" onclick="closeDetailModal()">✕</button>
     </div>
-
-    <!-- Image gallery -->
     <div class="detail-gallery" id="detail-gallery"></div>
-
-    <!-- Product info -->
     <div class="detail-info">
-      <div class="detail-price" id="detail-price"></div>
+      <div class="detail-price"   id="detail-price"></div>
       <div class="detail-caption" id="detail-caption"></div>
     </div>
-
-    <!-- Color selection -->
     <div class="detail-section">
       <h4>🎨 カラーを選択</h4>
       <div class="swatches-grid" id="swatches-grid"></div>
       <div class="hex-row">
         <span>カラーコード:</span>
         <input type="color" id="detail-color-picker">
-        <input type="text" id="detail-hex-input" placeholder="#C9B49A" maxlength="7">
+        <input type="text"  id="detail-hex-input" placeholder="#C9B49A" maxlength="7">
       </div>
     </div>
-
-    <!-- Size input -->
     <div class="detail-section">
       <h4>📐 サイズを確認・調整</h4>
       <div class="size-row">
         <div class="size-field">
           <label>幅</label>
           <div class="size-field-inner">
-            <input type="number" id="detail-w" min="30" max="400" placeholder="120">
+            <input type="number" id="detail-w" min="20" max="400">
             <span>cm</span>
           </div>
         </div>
         <div class="size-field">
           <label>奥行き</label>
           <div class="size-field-inner">
-            <input type="number" id="detail-h" min="20" max="300" placeholder="80">
+            <input type="number" id="detail-h" min="20" max="300">
             <span>cm</span>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Footer -->
     <div class="detail-footer">
       <button class="rakuten-btn" id="detail-rakuten-btn">楽天で詳細を見る 🔗</button>
       <button class="add-room-btn" onclick="addFromDetail()">この色・サイズで部屋に追加</button>
     </div>
-
   </div>
 </div>
 
@@ -681,16 +506,10 @@ header h1 { font-size: 17px; font-weight: bold; }
   </div>
 </div>
 
-<!-- ████ TOAST ████ -->
 <div id="toast"></div>
 
 <script>
 'use strict';
-
-// ════════════════════════════════
-// Config
-// ════════════════════════════════
-// API credentials are handled server-side by /api/search.js
 
 // ════════════════════════════════
 // Constants
@@ -708,7 +527,16 @@ const FURN_DEFAULTS = {
   sofa:    { w: 190, h: 85,  color: '#C9B49A', label: 'ソファ' },
   table:   { w: 120, h: 75,  color: '#C9B49A', label: 'テーブル' },
   storage: { w: 90,  h: 45,  color: '#EDE8DC', label: '収納' },
-  bed:     { w: 140, h: 200, color: '#7B9BB5', label: 'ベッド' }
+  bed:     { w: 140, h: 200, color: '#7B9BB5', label: 'ベッド' },
+  chair:   { w: 50,  h: 50,  color: '#C9B49A', label: 'チェア' },
+  tvboard: { w: 150, h: 40,  color: '#5C3D2E', label: 'TVボード' },
+  rug:     { w: 200, h: 140, color: '#C8C8C8', label: 'ラグ' },
+  lamp:    { w: 35,  h: 35,  color: '#C9A84C', label: '照明' },
+  mirror:  { w: 50,  h: 120, color: '#D8D8D8', label: '鏡' },
+  door:    { w: 80,  h: 88,  color: '#C8B89A', label: 'ドア' },
+  sliding: { w: 160, h: 14,  color: '#D4C8B0', label: '引き戸' },
+  window:  { w: 100, h: 12,  color: '#A8C8E8', label: '窓' },
+  pillar:  { w: 15,  h: 15,  color: '#888888', label: '柱' }
 };
 
 const PRESET_COLORS = [
@@ -729,37 +557,63 @@ const PRESET_COLORS = [
   { hex: '#F8F8F8', name: 'ホワイト' }
 ];
 
+const FLOOR_PRESETS = [
+  { hex: '#D4A96A', name: 'フローリング\nナチュラル' },
+  { hex: '#6B3F2A', name: 'フローリング\nダーク' },
+  { hex: '#F0EDE8', name: 'フローリング\nホワイト' },
+  { hex: '#C8C87A', name: '畳' },
+  { hex: '#A8A8A8', name: 'カーペット\nグレー' },
+  { hex: '#D4C4A8', name: 'カーペット\nベージュ' },
+  { hex: '#F5F5F5', name: 'タイル\nホワイト' },
+  { hex: '#B0B0B0', name: 'コンクリート' }
+];
+
+const WALL_PRESETS = [
+  { hex: '#F5F2ED', name: 'オフホワイト' },
+  { hex: '#D8D8D8', name: 'ライトグレー' },
+  { hex: '#E8D8C4', name: 'ベージュ' },
+  { hex: '#C8D8E8', name: 'ライトブルー' },
+  { hex: '#C8D8C8', name: 'グリーン' },
+  { hex: '#E8C4A8', name: 'テラコッタ' }
+];
+
 // ════════════════════════════════
 // State
 // ════════════════════════════════
 const S = {
-  roomSize:     6,
-  furniture:    [],
-  selectedId:   null,
-  nextId:       1,
-  category:     'ソファ',
-  catType:      'sofa',
-  pickedColor:  '#C9B49A',
-  searchItems:  [],
-  drag:         null,
-  isoMode:      false,
-  // Detail modal
-  pendingIdx:   null,
-  pendingColor: '#C9B49A'
+  roomSize:       6,
+  furniture:      [],
+  selectedId:     null,
+  nextId:         1,
+  category:       'ソファ',
+  catType:        'sofa',
+  pickedColor:    '#C9B49A',
+  searchItems:    [],
+  drag:           null,
+  isoMode:        false,
+  stylePanelOpen: false,
+  floorColor:     '#D4A96A',
+  wallColor:      '#7a5c3a',
+  pendingIdx:     null,
+  pendingColor:   '#C9B49A',
+  customRoom:     { w: 364, h: 364 }
 };
 
 // ════════════════════════════════
 // Room
 // ════════════════════════════════
+function getRoomDims() {
+  return S.roomSize === 'custom' ? S.customRoom : ROOM_CM[S.roomSize];
+}
+
 function initRoom() {
-  const { w, h } = ROOM_CM[S.roomSize];
+  const { w, h } = getRoomDims();
   const svg = document.getElementById('room-svg');
   svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
   svg.setAttribute('width', w);
   svg.setAttribute('height', h);
 
-  const wrap  = document.getElementById('room-wrap');
-  const avail = wrap.clientWidth - 28;
+  const avail = document.getElementById('room-wrap').clientWidth - 28;
   const scale = Math.min(1, avail / w);
   svg.style.width  = (w * scale) + 'px';
   svg.style.height = (h * scale) + 'px';
@@ -770,13 +624,17 @@ function initRoom() {
     el.setAttribute('height', h);
   });
 
+  // Apply stored floor/wall colors
+  document.getElementById('svg-floor').setAttribute('fill',   S.floorColor);
+  document.getElementById('svg-wall').setAttribute('stroke',  S.wallColor);
+
   document.getElementById('room-dim').textContent = `${w}×${h}cm`;
 
   const sb = document.getElementById('scale-bar');
   sb.innerHTML = '';
   const bx = w - 115, by = h - 12;
   sb.append(
-    s('line', { x1: bx, y1: by, x2: bx + 100, y2: by, stroke: '#666', 'stroke-width': 1.5 }),
+    s('line', { x1: bx,       y1: by,     x2: bx + 100, y2: by,     stroke: '#666', 'stroke-width': 1.5 }),
     s('line', { x1: bx,       y1: by - 4, x2: bx,       y2: by + 4, stroke: '#666', 'stroke-width': 1.5 }),
     s('line', { x1: bx + 100, y1: by - 4, x2: bx + 100, y2: by + 4, stroke: '#666', 'stroke-width': 1.5 })
   );
@@ -785,6 +643,53 @@ function initRoom() {
   sb.append(txt);
 
   renderAllFurniture();
+}
+
+// ════════════════════════════════
+// Floor / Wall color
+// ════════════════════════════════
+function toggleStylePanel() {
+  S.stylePanelOpen = !S.stylePanelOpen;
+  document.getElementById('room-style-panel').classList.toggle('hidden', !S.stylePanelOpen);
+  document.getElementById('style-btn').classList.toggle('panel-open', S.stylePanelOpen);
+}
+
+function setFloorColor(hex) {
+  S.floorColor = hex;
+  document.getElementById('svg-floor').setAttribute('fill', hex);
+  document.querySelectorAll('#floor-swatches .rsp-swatch').forEach(el => {
+    el.classList.toggle('active', el.dataset.hex === hex);
+  });
+}
+
+function setWallColor(hex) {
+  S.wallColor = hex;
+  document.getElementById('svg-wall').setAttribute('stroke', hex);
+  document.querySelectorAll('#wall-swatches .rsp-swatch').forEach(el => {
+    el.classList.toggle('active', el.dataset.hex === hex);
+  });
+}
+
+function buildStyleSwatches() {
+  function makeSwatch(preset, onclick) {
+    const btn = document.createElement('div');
+    btn.className    = 'rsp-swatch';
+    btn.dataset.hex  = preset.hex;
+    btn.title        = preset.name.replace('\n', ' ');
+    btn.style.background = preset.hex;
+    btn.innerHTML    = '<span class="rsp-swatch-check">✓</span>';
+    btn.addEventListener('click', () => onclick(preset.hex));
+    return btn;
+  }
+
+  const floorEl = document.getElementById('floor-swatches');
+  const wallEl  = document.getElementById('wall-swatches');
+  FLOOR_PRESETS.forEach(p => floorEl.appendChild(makeSwatch(p, setFloorColor)));
+  WALL_PRESETS.forEach(p  => wallEl.appendChild(makeSwatch(p,  setWallColor)));
+
+  // Set initial active states
+  setFloorColor(S.floorColor);
+  setWallColor(S.wallColor);
 }
 
 // ════════════════════════════════
@@ -801,8 +706,8 @@ function sr(x, y, w, h, fill, stroke = 'none', sw = 0, rx = 2) {
 function sl(x1, y1, x2, y2, stroke, sw = 1) {
   return s('line', { x1, y1, x2, y2, stroke, 'stroke-width': sw });
 }
-function sc(cx, cy, r, fill) {
-  return s('circle', { cx, cy, r, fill });
+function sc(cx, cy, r, fill, stroke = 'none', sw = 0) {
+  return s('circle', { cx, cy, r, fill, stroke, 'stroke-width': sw });
 }
 function shade(hex, amt) {
   if (!hex || hex[0] !== '#' || hex.length < 7) return hex || '#888';
@@ -811,8 +716,8 @@ function shade(hex, amt) {
   const b = parseInt(hex.slice(5, 7), 16);
   const f = amt < 0 ? 1 + amt : 1;
   const a = amt > 0 ? amt : 0;
-  const clamp = v => Math.min(255, Math.max(0, Math.round(v * f + 255 * a)));
-  return '#' + [clamp(r), clamp(g), clamp(b)].map(v => v.toString(16).padStart(2, '0')).join('');
+  const cl = v => Math.min(255, Math.max(0, Math.round(v * f + 255 * a)));
+  return '#' + [cl(r), cl(g), cl(b)].map(v => v.toString(16).padStart(2, '0')).join('');
 }
 
 // ════════════════════════════════
@@ -827,41 +732,137 @@ function drawShape(f) {
 
   if (type === 'sofa') {
     const bh = h * .30, aw = w * .10, sh = h - bh;
-    const n  = w > 150 ? 3 : 2;
-    const cw = (w - aw * 2) / n;
-    for (let i = 0; i < n; i++) {
-      g.append(sr(aw + cw * i + 1, bh + 1, cw - 2, sh - 2, c, dk, .8, 4));
-    }
+    const n = w > 150 ? 3 : 2, cw = (w - aw * 2) / n;
+    for (let i = 0; i < n; i++) g.append(sr(aw + cw * i + 1, bh + 1, cw - 2, sh - 2, c, dk, .8, 4));
     g.append(sr(0, 0, w, bh, dk, dk2, 1, 2));
     g.append(sr(0, bh, aw, sh, dk, dk2, 1, 2));
     g.append(sr(w - aw, bh, aw, sh, dk, dk2, 1, 2));
     g.append(sl(aw + 2, bh * .5, w - aw - 2, bh * .5, 'rgba(255,255,255,.2)', 1));
 
   } else if (type === 'table') {
-    const legR = Math.min(w, h) * .07, legOff = legR * 1.8;
+    const legR = Math.min(w, h) * .07, lo = legR * 1.8;
     g.append(sr(0, 0, w, h, c, dk, 1.2, 3));
-    [[legOff, legOff], [w - legOff, legOff],
-     [legOff, h - legOff], [w - legOff, h - legOff]]
-      .forEach(([cx, cy]) => g.append(sc(cx, cy, legR, dk2)));
-    g.append(sl(0, h / 2, w, h / 2, 'rgba(0,0,0,.08)', .7));
+    [[lo, lo], [w-lo, lo], [lo, h-lo], [w-lo, h-lo]].forEach(([cx, cy]) => g.append(sc(cx, cy, legR, dk2)));
+    g.append(sl(0, h/2, w, h/2, 'rgba(0,0,0,.08)', .7));
 
   } else if (type === 'bed') {
-    const hbH = h * .14, pilH = h * .17, pilW = w * .38;
-    g.append(sr(0, hbH, w, h - hbH, c, dk, 1, 2));
-    g.append(sr(0, 0, w, hbH + 4, dk, dk2, 1, 2));
-    g.append(sr(w * .04, hbH + 5, pilW, pilH, lt, dk, .6, 5));
-    g.append(sr(w - pilW - w * .04, hbH + 5, pilW, pilH, lt, dk, .6, 5));
-    g.append(sl(0, hbH + pilH + 9, w, hbH + pilH + 9, 'rgba(0,0,0,.1)', 1));
-    g.append(sl(w / 2, hbH + pilH + 9, w / 2, h, 'rgba(0,0,0,.07)', .8));
+    const hbH = h*.14, pilH = h*.17, pilW = w*.38;
+    g.append(sr(0, hbH, w, h-hbH, c, dk, 1, 2));
+    g.append(sr(0, 0, w, hbH+4, dk, dk2, 1, 2));
+    g.append(sr(w*.04, hbH+5, pilW, pilH, lt, dk, .6, 5));
+    g.append(sr(w-pilW-w*.04, hbH+5, pilW, pilH, lt, dk, .6, 5));
+    g.append(sl(0, hbH+pilH+9, w, hbH+pilH+9, 'rgba(0,0,0,.1)', 1));
+    g.append(sl(w/2, hbH+pilH+9, w/2, h, 'rgba(0,0,0,.07)', .8));
 
   } else if (type === 'storage') {
     g.append(sr(0, 0, w, h, c, dk, 1.5, 2));
-    g.append(sl(w / 2, 0, w / 2, h, dk, 1.2));
-    const hW = Math.max(4, w * .07), hH = Math.max(3, h * .1);
-    g.append(sr(w / 2 - hW * 1.5, h / 2 - hH / 2, hW, hH, dk2, 'none', 0, 2));
-    g.append(sr(w / 2 + hW * .5,  h / 2 - hH / 2, hW, hH, dk2, 'none', 0, 2));
-    g.append(sl(0, h * .08, w, h * .08, 'rgba(0,0,0,.1)', .6));
-    g.append(sl(0, h * .92, w, h * .92, 'rgba(0,0,0,.1)', .6));
+    g.append(sl(w/2, 0, w/2, h, dk, 1.2));
+    const hW = Math.max(4, w*.07), hH = Math.max(3, h*.1);
+    g.append(sr(w/2-hW*1.5, h/2-hH/2, hW, hH, dk2, 'none', 0, 2));
+    g.append(sr(w/2+hW*.5,  h/2-hH/2, hW, hH, dk2, 'none', 0, 2));
+    g.append(sl(0, h*.08, w, h*.08, 'rgba(0,0,0,.1)', .6));
+    g.append(sl(0, h*.92, w, h*.92, 'rgba(0,0,0,.1)', .6));
+
+  } else if (type === 'chair') {
+    // Small chair: back + seat (top-down)
+    const bh = h * .22, aw = w * .08;
+    g.append(sr(0, 0, w, bh, dk, dk2, 1, 2));            // back rest
+    g.append(sr(aw, bh+2, w-aw*2, h-bh-2, c, dk, 1, 3)); // seat
+    g.append(sl(aw+2, bh*.5, w-aw-2, bh*.5, 'rgba(255,255,255,.2)', 1));
+
+  } else if (type === 'tvboard') {
+    // Wide shallow rectangle with 3 door sections
+    g.append(sr(0, 0, w, h, c, dk, 1.5, 2));
+    const sec = w / 3;
+    g.append(sl(sec,   0, sec,   h, dk, .8));
+    g.append(sl(sec*2, 0, sec*2, h, dk, .8));
+    // Handles
+    [sec/2, sec*1.5, sec*2.5].forEach(x => {
+      g.append(sr(x - Math.max(4, w*.025), h/2 - 2, Math.max(8, w*.05), 4, dk2, 'none', 0, 2));
+    });
+    g.append(sl(0, h*.1, w, h*.1, 'rgba(0,0,0,.1)', .6));
+    g.append(sl(0, h*.9, w, h*.9, 'rgba(0,0,0,.1)', .6));
+
+  } else if (type === 'rug') {
+    // Semi-transparent rounded rectangle with decorative border
+    const base = sr(0, 0, w, h, c, 'none', 0, 10);
+    base.setAttribute('fill-opacity', '0.55');
+    g.append(base);
+    const border = sr(3, 3, w-6, h-6, 'none', dk, 1.5, 8);
+    border.setAttribute('stroke-opacity', '.7');
+    g.append(border);
+    const inner = sr(8, 8, w-16, h-16, 'none', shade(c, -.15), .8, 6);
+    inner.setAttribute('stroke-dasharray', '5 4');
+    inner.setAttribute('stroke-opacity', '.5');
+    g.append(inner);
+
+  } else if (type === 'lamp') {
+    // Circular floor lamp (top-down)
+    const r  = Math.min(w, h) / 2;
+    const cx = w / 2, cy = h / 2;
+    const glow = sc(cx, cy, r, shade(c, .5));
+    glow.setAttribute('fill-opacity', '.2');
+    g.append(glow);
+    const ring = s('circle', { cx, cy, r: r*.68, fill: 'none', stroke: shade(c, .1), 'stroke-width': '1', 'stroke-dasharray': '3 2.5' });
+    g.append(ring);
+    g.append(sc(cx, cy, r*.35, c, dk, 1.5));
+
+  } else if (type === 'mirror') {
+    // Tall narrow rectangle: frame + mirror surface
+    g.append(sr(0, 0, w, h, dk, dk2, 1.5, 3));                              // frame
+    const mw = w*.65, mh = h*.82;
+    const mx = (w-mw)/2, my = (h-mh)/2;
+    g.append(sr(mx, my, mw, mh, shade(c, .35), shade(c, .1), .5, 2));       // mirror
+    // Reflection highlight
+    g.append(sl(mx+2, my+mh*.12, mx+mw*.28, my+2, 'rgba(255,255,255,.6)', 1));
+
+  } else if (type === 'door') {
+    // Thin wall frame + door panel line + quarter-circle swing arc
+    const frameH = Math.min(8, h * .09);
+    const radius = Math.min(w, h - frameH);
+    g.append(sr(0, 0, w, frameH, '#C8B89A', '#8B6F5E', 1.5, 0));
+    const arcFill = s('path', {
+      d: `M 0 ${frameH} L ${radius} ${frameH} A ${radius} ${radius} 0 0 0 0 ${frameH + radius}`,
+      fill: 'rgba(200,180,150,.15)', stroke: 'none'
+    });
+    g.append(arcFill);
+    g.append(sl(0, frameH, 0, frameH + radius, '#8B6F5E', 2));
+    const arc = s('path', {
+      d: `M ${radius} ${frameH} A ${radius} ${radius} 0 0 0 0 ${frameH + radius}`,
+      fill: 'none', stroke: '#8B6F5E', 'stroke-width': 1, 'stroke-dasharray': '5 3'
+    });
+    g.append(arc);
+
+  } else if (type === 'sliding') {
+    // Two sliding panels with center divider and arrows
+    g.append(sr(0, 0, w, h, '#D4C8B0', '#8B6F5E', 1.5, 0));
+    const mid = w / 2;
+    g.append(sl(mid, 1, mid, h - 1, '#8B6F5E', 1.2));
+    const aw = Math.min(mid * .3, 18);
+    // Left arrow
+    g.append(sl(mid * .55, h / 2, aw, h / 2, '#8B6F5E', .8));
+    g.append(sl(aw, h / 2, aw + 4, h / 2 - 3, '#8B6F5E', .8));
+    g.append(sl(aw, h / 2, aw + 4, h / 2 + 3, '#8B6F5E', .8));
+    // Right arrow
+    g.append(sl(mid * 1.45, h / 2, w - aw, h / 2, '#8B6F5E', .8));
+    g.append(sl(w - aw, h / 2, w - aw - 4, h / 2 - 3, '#8B6F5E', .8));
+    g.append(sl(w - aw, h / 2, w - aw - 4, h / 2 + 3, '#8B6F5E', .8));
+
+  } else if (type === 'window') {
+    // Window frame (light blue) with 3 panes
+    g.append(sr(0, 0, w, h, '#B8D8F0', '#5C8CB8', 2, 0));
+    const pw = (w - 4) / 3;
+    for (let i = 0; i < 3; i++) {
+      g.append(sr(2 + pw * i + 1, 2, pw - 2, h - 4, 'rgba(200,230,255,.65)', 'none', 0, 0));
+    }
+    g.append(sl(2 + pw,     0, 2 + pw,     h, '#5C8CB8', .8));
+    g.append(sl(2 + pw * 2, 0, 2 + pw * 2, h, '#5C8CB8', .8));
+
+  } else if (type === 'pillar') {
+    // Gray square with X diagonal lines
+    g.append(sr(0, 0, w, h, '#909090', '#555', 2, 0));
+    g.append(sl(0, 0, w, h, '#666', .9));
+    g.append(sl(w, 0, 0, h, '#666', .9));
 
   } else {
     g.append(sr(0, 0, w, h, c, dk, 1.5, 3));
@@ -875,7 +876,9 @@ function drawShape(f) {
 function renderAllFurniture() {
   const grp = document.getElementById('furn-group');
   grp.innerHTML = '';
-  S.furniture.forEach(f => grp.append(makeFurnEl(f)));
+  // Render rugs first (they appear behind other furniture)
+  const sorted = [...S.furniture].sort((a, b) => (a.type === 'rug' ? 0 : 1) - (b.type === 'rug' ? 0 : 1));
+  sorted.forEach(f => grp.append(makeFurnEl(f)));
 }
 function makeFurnEl(f) {
   const g = s('g', { id: `f-${f.id}`, transform: `translate(${f.x},${f.y})`, style: 'cursor:move' });
@@ -883,9 +886,8 @@ function makeFurnEl(f) {
   g.append(drawShape(f));
   const fs  = Math.min(f.w, f.h) * .2;
   const lbl = s('text', {
-    x: f.w / 2, y: f.h / 2 + fs * .35,
-    'text-anchor': 'middle',
-    'font-size': Math.max(6, Math.min(fs, 14)),
+    x: f.w/2, y: f.h/2 + fs*.35,
+    'text-anchor': 'middle', 'font-size': Math.max(6, Math.min(fs, 14)),
     fill: 'rgba(0,0,0,.45)', 'pointer-events': 'none', 'font-weight': '500'
   });
   lbl.textContent = f.name;
@@ -914,7 +916,7 @@ document.getElementById('room-svg').addEventListener('pointerdown', e => {
   const pt = svgPt(e);
   let el = e.target;
   while (el && el !== e.currentTarget) {
-    if (el.id && el.id.startsWith('f-')) {
+    if (el.id?.startsWith('f-')) {
       const id = parseInt(el.id.slice(2));
       const f  = S.furniture.find(x => x.id === id);
       if (f) { selectFurn(id); S.drag = { id, sx: pt.x, sy: pt.y, fx: f.x, fy: f.y }; return; }
@@ -926,9 +928,9 @@ document.getElementById('room-svg').addEventListener('pointerdown', e => {
 document.getElementById('room-svg').addEventListener('pointermove', e => {
   if (!S.drag) return;
   e.preventDefault();
-  const pt       = svgPt(e);
-  const { w, h } = ROOM_CM[S.roomSize];
-  const f        = S.furniture.find(x => x.id === S.drag.id);
+  const pt = svgPt(e);
+  const { w, h } = getRoomDims();
+  const f = S.furniture.find(x => x.id === S.drag.id);
   if (!f) return;
   f.x = Math.max(0, Math.min(w - f.w, S.drag.fx + pt.x - S.drag.sx));
   f.y = Math.max(0, Math.min(h - f.h, S.drag.fy + pt.y - S.drag.sy));
@@ -954,7 +956,10 @@ function selectFurn(id) {
   document.getElementById('lbl-w').textContent = f.w;
   document.getElementById('lbl-h').textContent = f.h;
   document.getElementById('cur-color-dot').style.background = f.color;
-  document.getElementById('buy-btn').disabled = !f.url;
+  const isMadori = ['door', 'sliding', 'window', 'pillar'].includes(f.type);
+  const buyBtn = document.getElementById('buy-btn');
+  buyBtn.style.display = isMadori ? 'none' : '';
+  buyBtn.disabled = !f.url;
   document.getElementById('furn-panel').classList.remove('hidden');
 }
 function deselect() {
@@ -972,7 +977,7 @@ function deleteSelected() {
 function clearRoom() {
   if (!S.furniture.length) return;
   if (!confirm('部屋をリセットしますか？')) return;
-  S.furniture  = []; S.selectedId = null;
+  S.furniture = []; S.selectedId = null;
   document.getElementById('furn-panel').classList.add('hidden');
   renderAllFurniture();
 }
@@ -984,7 +989,7 @@ function onSizeChange() {
   f.h = parseInt(document.getElementById('sl-h').value);
   document.getElementById('lbl-w').textContent = f.w;
   document.getElementById('lbl-h').textContent = f.h;
-  const { w: rw, h: rh } = ROOM_CM[S.roomSize];
+  const { w: rw, h: rh } = getRoomDims();
   f.x = Math.min(f.x, rw - f.w);
   f.y = Math.min(f.y, rh - f.h);
   updateFurnEl(f);
@@ -994,7 +999,7 @@ function rotateFurniture() {
   const f = S.furniture.find(x => x.id === S.selectedId);
   if (!f) return;
   [f.w, f.h] = [f.h, f.w];
-  const { w: rw, h: rh } = ROOM_CM[S.roomSize];
+  const { w: rw, h: rh } = getRoomDims();
   f.x = Math.max(0, Math.min(rw - f.w, f.x));
   f.y = Math.max(0, Math.min(rh - f.h, f.y));
   document.getElementById('sl-w').value        = f.w;
@@ -1029,7 +1034,6 @@ function estimateSizeFromName(name, type) {
 
   const dimM = name.match(/(\d+)\s*[×xXｘ]\s*(\d+)/);
   if (dimM) { w = parseInt(dimM[1]); h = parseInt(dimM[2]); }
-
   if (!w) { const m = name.match(/幅\s*(\d{2,3})/); if (m) w = parseInt(m[1]); }
   if (!w) { const m = name.match(/[Ww]\s*[=:：]?\s*(\d{2,3})/); if (m) w = parseInt(m[1]); }
   if (!w) { const m = name.match(/(\d{2,3})\s*cm/i); if (m) w = parseInt(m[1]); }
@@ -1039,21 +1043,33 @@ function estimateSizeFromName(name, type) {
     else if (/クイーン/.test(name))   { w = w || 160; }
     else if (/セミダブル/.test(name)) { w = w || 120; }
     else if (/ダブル/.test(name))     { w = w || 140; }
-    else if (/シングル/.test(name))   { w = w || 97;  }
+    else if (/シングル/.test(name))   { w = w || 97; }
     h = h || 200;
   }
   if (type === 'sofa' && !w) {
     if (/[Ll]字|コーナー/.test(name)) { w = 240; h = 160; }
-    else {
-      const m = name.match(/([1-4])\s*人掛け/);
-      if (m) w = [80, 130, 190, 240][parseInt(m[1]) - 1] || 190;
-    }
+    else { const m = name.match(/([1-4])\s*人掛け/); if (m) w = [80,130,190,240][parseInt(m[1])-1] || 190; }
   }
   if (type === 'table' && !h && w) {
     h = /丸|円形|ラウンド/.test(name) ? w : Math.round(w * .625);
   }
+  if (type === 'tvboard' && !w) {
+    const m = name.match(/(\d{2,3})\s*型/);
+    if (m) w = Math.round(parseInt(m[1]) * 2.5 + 40);
+  }
+  if (type === 'rug') {
+    if (!w) {
+      if      (/200|大|ラージ/i.test(name))  { w = 200; h = 250; }
+      else if (/160|中|ミディアム/i.test(name)) { w = 160; h = 230; }
+      else if (/130|小|スモール/i.test(name))   { w = 130; h = 185; }
+    }
+  }
+  if (type === 'chair' && !w) {
+    if (/ラウンジ|リクライニング/.test(name)) { w = 80; h = 80; }
+    else { w = 50; h = 50; }
+  }
 
-  if (w < 30 || w > 400) w = 0;
+  if (w < 20 || w > 400) w = 0;
   if (h < 20 || h > 400) h = 0;
   return { w: w || def.w, h: h || def.h };
 }
@@ -1066,48 +1082,39 @@ function openDetailModal(idx) {
   if (!item) return;
   S.pendingIdx = idx;
 
-  // Product name (full, no truncation)
   document.getElementById('detail-name').textContent = item.itemName || '';
 
-  // Gallery
   const gallery = document.getElementById('detail-gallery');
   gallery.innerHTML = '';
   const urls = item.mediumImageUrls || [];
   if (urls.length) {
     urls.forEach(({ imageUrl }) => {
       const img = document.createElement('img');
-      img.className   = 'gallery-img';
-      img.src         = (imageUrl || '').replace(/\?_ex=\d+x\d+/, '?_ex=300x300');
-      img.alt         = '';
-      img.loading     = 'lazy';
-      img.onclick     = () => openLightbox(img.src);
+      img.className = 'gallery-img';
+      img.src       = (imageUrl || '').replace(/\?_ex=\d+x\d+/, '?_ex=300x300');
+      img.alt       = ''; img.loading = 'lazy';
+      img.onclick   = () => openLightbox(img.src);
       gallery.appendChild(img);
     });
   } else {
     const ph = document.createElement('div');
-    ph.className   = 'no-img-placeholder';
-    ph.textContent = '画像なし';
+    ph.className = 'no-img-placeholder'; ph.textContent = '画像なし';
     gallery.appendChild(ph);
   }
 
-  // Price
   document.getElementById('detail-price').textContent =
     item.itemPrice ? `¥${Number(item.itemPrice).toLocaleString()}` : '';
 
-  // Caption (200 chars)
   const cap = (item.itemCaption || '').replace(/<[^>]+>/g, '').trim();
   document.getElementById('detail-caption').textContent =
     cap.length > 200 ? cap.slice(0, 200) + '…' : cap || '商品説明がありません';
 
-  // Color: default to category default
   selectDetailColor(FURN_DEFAULTS[S.catType]?.color || PRESET_COLORS[6].hex);
 
-  // Size: auto-estimate
   const size = estimateSizeFromName(item.itemName || '', S.catType);
   document.getElementById('detail-w').value = size.w;
   document.getElementById('detail-h').value = size.h;
 
-  // Rakuten link button
   document.getElementById('detail-rakuten-btn').onclick = () => {
     if (item.itemUrl) window.open(item.itemUrl, '_blank', 'noopener');
   };
@@ -1115,7 +1122,6 @@ function openDetailModal(idx) {
   document.getElementById('detail-modal').classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 }
-
 function selectDetailColor(hex) {
   if (!hex || !/^#[0-9a-fA-F]{6}$/.test(hex)) return;
   S.pendingColor = hex;
@@ -1125,22 +1131,18 @@ function selectDetailColor(hex) {
   document.getElementById('detail-color-picker').value = hex;
   document.getElementById('detail-hex-input').value    = hex;
 }
-
 function closeDetailModal() {
   document.getElementById('detail-modal').classList.add('hidden');
   document.body.style.overflow = '';
 }
-
 function addFromDetail() {
   const item = S.searchItems[S.pendingIdx];
   if (!item) return;
-
   const def   = FURN_DEFAULTS[S.catType] || FURN_DEFAULTS.sofa;
-  const w     = Math.max(30, parseInt(document.getElementById('detail-w').value) || def.w);
+  const w     = Math.max(20, parseInt(document.getElementById('detail-w').value) || def.w);
   const h     = Math.max(20, parseInt(document.getElementById('detail-h').value) || def.h);
-  const { w: rw, h: rh } = ROOM_CM[S.roomSize];
+  const { w: rw, h: rh } = getRoomDims();
   const nudge = (S.furniture.length % 5) * 8;
-
   const f = {
     id:       S.nextId++,
     type:     S.catType,
@@ -1153,7 +1155,6 @@ function addFromDetail() {
     x: Math.max(0, Math.min(rw - w, (rw - w) / 2 + nudge)),
     y: Math.max(0, Math.min(rh - h, (rh - h) / 2 + nudge))
   };
-
   S.furniture.push(f);
   closeDetailModal();
   renderAllFurniture();
@@ -1174,7 +1175,7 @@ function closeLightbox() {
 }
 
 // ════════════════════════════════
-// Build color swatches (called once on init)
+// Build color swatches (once on init)
 // ════════════════════════════════
 function buildSwatches() {
   const grid = document.getElementById('swatches-grid');
@@ -1186,7 +1187,6 @@ function buildSwatches() {
       <span class="swatch-name">${c.name}</span>
     </div>`).join('');
 
-  // Color picker sync
   document.getElementById('detail-color-picker').addEventListener('input', e => {
     selectDetailColor(e.target.value);
   });
@@ -1197,7 +1197,7 @@ function buildSwatches() {
 }
 
 // ════════════════════════════════
-// In-room color picker (for already-placed furniture)
+// In-room color picker
 // ════════════════════════════════
 function openColorModal() {
   if (S.selectedId === null) return;
@@ -1206,15 +1206,12 @@ function openColorModal() {
   setPickedColor(f.color);
   const canvas = document.getElementById('color-canvas');
   const ctx    = canvas.getContext('2d');
-  canvas.style.display = 'none';
-  canvas.onclick       = null;
+  canvas.style.display = 'none'; canvas.onclick = null;
   document.getElementById('color-desc').textContent = 'カラーピッカーで色を選択してください';
   if (f.imageUrl) {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
+    const img = new Image(); img.crossOrigin = 'anonymous';
     img.onload = () => {
-      canvas.width  = img.naturalWidth;
-      canvas.height = img.naturalHeight;
+      canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
       canvas.style.display = 'block';
       canvas.onclick = ev => pickFromCanvas(ev, canvas, ctx);
       document.getElementById('color-desc').textContent = '商品写真をタップして色を選択できます';
@@ -1232,9 +1229,7 @@ function pickFromCanvas(e, canvas, ctx) {
   try {
     const px = ctx.getImageData(x, y, 1, 1).data;
     setPickedColor(rgbHex(px[0], px[1], px[2]));
-  } catch {
-    canvas.style.display = 'none'; canvas.onclick = null;
-  }
+  } catch { canvas.style.display = 'none'; canvas.onclick = null; }
 }
 async function useEyeDropper() {
   if (!window.EyeDropper) return;
@@ -1254,9 +1249,7 @@ function applyColor() {
   }
   closeColorModal();
 }
-function closeColorModal() {
-  document.getElementById('color-modal').classList.add('hidden');
-}
+function closeColorModal() { document.getElementById('color-modal').classList.add('hidden'); }
 
 // ════════════════════════════════
 // Room size selector
@@ -1265,8 +1258,18 @@ document.querySelectorAll('.sz-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.sz-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    S.roomSize = parseInt(btn.dataset.size);
-    const { w: rw, h: rh } = ROOM_CM[S.roomSize];
+    const size = btn.dataset.size;
+    if (size === 'custom') {
+      S.roomSize = 'custom';
+      document.getElementById('custom-w').value = S.customRoom.w;
+      document.getElementById('custom-h').value = S.customRoom.h;
+      document.getElementById('custom-size-row').classList.remove('hidden');
+      initRoom();
+      return;
+    }
+    document.getElementById('custom-size-row').classList.add('hidden');
+    S.roomSize = parseInt(size);
+    const { w: rw, h: rh } = getRoomDims();
     S.furniture.forEach(f => {
       f.x = Math.max(0, Math.min(rw - f.w, f.x));
       f.y = Math.max(0, Math.min(rh - f.h, f.y));
@@ -1284,8 +1287,14 @@ document.querySelectorAll('.cat-btn').forEach(btn => {
     btn.classList.add('active');
     S.category = btn.dataset.cat;
     S.catType  = btn.dataset.type;
-    document.getElementById('search-input').value = btn.dataset.cat;
-    doSearch();
+    const isMadori = S.catType === 'madori';
+    document.getElementById('search-bar').style.display      = isMadori ? 'none' : '';
+    document.getElementById('results-section').style.display = isMadori ? 'none' : '';
+    document.getElementById('madori-panel').classList.toggle('hidden', !isMadori);
+    if (!isMadori) {
+      document.getElementById('search-input').value = btn.dataset.cat;
+      doSearch();
+    }
   });
 });
 
@@ -1295,13 +1304,11 @@ document.querySelectorAll('.cat-btn').forEach(btn => {
 document.getElementById('search-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') doSearch();
 });
-
 function doSearch() {
   const kw = document.getElementById('search-input').value.trim() || S.category;
   showLoading('検索中…');
   rakutenSearch(kw);
 }
-
 async function rakutenSearch(kw) {
   const url = `/api/search?keyword=${encodeURIComponent(kw)}&hits=12&sort=-reviewCount`;
   console.log('[Rakuten] Request:', location.origin + url);
@@ -1321,7 +1328,6 @@ async function rakutenSearch(kw) {
     showError('APIの呼び出しに失敗しました。');
   }
 }
-
 function renderResults(items) {
   document.getElementById('results-title').textContent =
     items.length ? `${items.length}件の商品` : '商品が見つかりませんでした';
@@ -1334,9 +1340,7 @@ function renderResults(items) {
     const price = item.itemPrice ? `¥${Number(item.itemPrice).toLocaleString()}` : '';
     return `
       <div class="result-item" data-idx="${i}">
-        ${img
-          ? `<img class="result-img" src="${esc(img)}" alt="" loading="lazy" onerror="this.style.opacity='.3'">`
-          : `<div class="result-img"></div>`}
+        ${img ? `<img class="result-img" src="${esc(img)}" alt="" loading="lazy" onerror="this.style.opacity='.3'">` : `<div class="result-img"></div>`}
         <div class="result-info">
           <div class="result-name">${esc(item.itemName || '')}</div>
           <div class="result-price">${price}</div>
@@ -1345,15 +1349,12 @@ function renderResults(items) {
       </div>`;
   }).join('');
 }
-
-// Event delegation: open detail modal instead of adding directly
 document.getElementById('results-list').addEventListener('click', e => {
   const el  = e.target.closest('.result-add') || e.target.closest('.result-item');
   if (!el) return;
   const idx = parseInt(el.dataset.idx);
   if (!isNaN(idx)) openDetailModal(idx);
 });
-
 function showLoading(msg = '読み込み中…') {
   document.getElementById('results-title').textContent = msg;
   document.getElementById('results-list').innerHTML = `<p class="loading">⏳ ${msg}</p>`;
@@ -1369,8 +1370,7 @@ function showError(msg) {
 let toastTimer;
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
 }
@@ -1383,8 +1383,54 @@ function rgbHex(r, g, b) {
 }
 function esc(str) {
   return String(str)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ════════════════════════════════
+// Custom room size
+// ════════════════════════════════
+function applyCustomSize() {
+  const w = Math.max(100, Math.min(800, parseInt(document.getElementById('custom-w').value) || 364));
+  const h = Math.max(100, Math.min(800, parseInt(document.getElementById('custom-h').value) || 364));
+  S.customRoom = { w, h };
+  S.roomSize   = 'custom';
+  document.getElementById('custom-w').value = w;
+  document.getElementById('custom-h').value = h;
+  const { w: rw, h: rh } = S.customRoom;
+  S.furniture.forEach(f => {
+    f.x = Math.max(0, Math.min(rw - f.w, f.x));
+    f.y = Math.max(0, Math.min(rh - f.h, f.y));
+  });
+  initRoom();
+}
+
+// ════════════════════════════════
+// Madori objects
+// ════════════════════════════════
+function addMadoriObject(type) {
+  const def = FURN_DEFAULTS[type];
+  if (!def) return;
+  const { w: rw, h: rh } = getRoomDims();
+  const nudge = (S.furniture.length % 5) * 10;
+  const f = {
+    id:       S.nextId++,
+    type,
+    name:     def.label,
+    fullName: def.label,
+    url:      '',
+    imageUrl: '',
+    color:    def.color,
+    w:        def.w,
+    h:        def.h,
+    x: Math.max(0, Math.min(rw - def.w, nudge)),
+    y: Math.max(0, Math.min(rh - def.h, nudge))
+  };
+  S.furniture.push(f);
+  renderAllFurniture();
+  selectFurn(f.id);
+  showToast(`${def.label}を追加しました ✓`);
+  document.getElementById('room-wrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 // ════════════════════════════════
@@ -1392,6 +1438,7 @@ function esc(str) {
 // ════════════════════════════════
 function init() {
   buildSwatches();
+  buildStyleSwatches();
   initRoom();
   document.getElementById('search-input').value = S.category;
   doSearch();
